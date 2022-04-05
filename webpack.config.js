@@ -15,6 +15,7 @@ module.exports = {
     hot: true,
     port: 4000,
   },
+  devtool: "source-map",
   target: "web",
   module: {
     rules: [
@@ -31,13 +32,17 @@ module.exports = {
             options: {},
           },
           "css-loader",
+          "postcss-loader",
           "sass-loader",
         ],
       },
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      "@types": path.resolve(__dirname, "src/types"),
+    },
+    extensions: ["index.ts", ".ts", ".js"],
   },
   output: {
     filename: "index.[hash].js",
@@ -47,6 +52,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "./src/templates/index.html")
-    })
+    }),
+    new MiniCssExtractPlugin(),
   ]
 };

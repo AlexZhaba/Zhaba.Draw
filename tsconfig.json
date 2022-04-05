@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "ES6",
     "experimentalDecorators": true,
     "outDir": "public/js",
     "strict": true,
+    "sourceMap": true,
     "noImplicitOverride": true,
+    "moduleResolution": "Node",
     "importsNotUsedAsValues": "error",
   },
   "include": ["src"],
