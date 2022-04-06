@@ -2,6 +2,7 @@ import ActionListener, { AllActions } from "../ActionListener";
 import Point from "../figures/Point";
 import Drawer from "./Drawer";
 import type BaseFigure from "../figures/BaseFigure";
+import Rectangle from "../figures/Rectangle";
 
 type Constructor<I = {}> = new (...args: any[]) => I;
 
@@ -15,7 +16,7 @@ export default class Canvas {
     this.#context = <CanvasRenderingContext2D>canvasEl.getContext("2d");
     this.#listener = new ActionListener(id);
     this.#listener.bindTriggerFunction(this.onAction.bind(this));
-    this.#drawer = new Drawer(Point, this.#context);
+    this.#drawer = new Drawer(Rectangle, this.#context);
   }
 
   onAction(action: AllActions) {

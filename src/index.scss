@@ -15,6 +15,16 @@
   max-height: 600px;
   background: #FFF;
   flex-shrink: 0;
+  background: red;
+}
+
+#canvas_template {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1140px;
+  height: 600px;
+  background: transparent;
 }
 
 #aside {

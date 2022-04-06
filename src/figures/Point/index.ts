@@ -1,7 +1,7 @@
 import type { Position, mouseActions, AllActions } from "../../ActionListener/actions";
 import BaseFigure from "../BaseFigure";
 
-export default class Point extends BaseFigure implements BaseFigure {
+export default class Point extends BaseFigure {
   #lastPosition: Position = { position: { x: 1, y: 2 } };
 
   constructor(context: CanvasRenderingContext2D) {
@@ -20,11 +20,11 @@ export default class Point extends BaseFigure implements BaseFigure {
     };
   }
 
-  getStopAction(): keyof typeof mouseActions {
+  protected getStopAction(): keyof typeof mouseActions {
     return "mouseup";
   }
 
-  getStartAction(): keyof typeof mouseActions {
+  protected getStartAction(): keyof typeof mouseActions {
     return "mousedown";
   }
 
