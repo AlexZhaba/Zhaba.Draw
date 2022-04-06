@@ -1,10 +1,3 @@
-type l = keyof HTMLElementEventMap;
-
-// type MouseActions<T> = {
-//   [K in keyof T]?: K
-// };
-
-// const mouseActions: MouseActions<HTMLElementEventMap> = {
 const mouseActions = {
   mousemove: "mousemove",
   mouseup: "mouseup",
@@ -32,9 +25,8 @@ interface MousemoveAction extends Position {
 
 type AllActions = MousedownAction | MouseupAction | MousemoveAction;
 
-export default mouseActions;
-
 export {
+  Position,
   mouseActions,
   AllActions,
   MouseupAction,

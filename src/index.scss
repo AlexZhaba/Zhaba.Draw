@@ -11,11 +11,12 @@
 }
 
 #canvas {
-  flex: 1;
+  max-width: 1140px;
+  max-height: 600px;
   background: #FFF;
+  flex-shrink: 0;
 }
 
 #aside {
-  width: 300px;
-  flex-shrink: 0  ;
+  flex: 1;
 }
