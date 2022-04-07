@@ -9,15 +9,13 @@ type Constructor<I = {}> = new (...args: any[]) => I;
 
 export default class Canvas {
   readonly #context: CanvasRenderingContext2D;
-  #listener: ActionListener;
   #mode: "point" = "point";
   #drawer: Drawer<Constructor<BaseFigure>>;
   #syncContext: CanvasRenderingContext2D | null = null;
 
   constructor(canvasEl: HTMLCanvasElement, id: string) {
     this.#context = <CanvasRenderingContext2D>canvasEl.getContext("2d");
-    this.#listener = new ActionListener(window);
-    this.#listener.bindTriggerFunction(
+    new ActionListener(window).bindTriggerFunction(
       this.onAction.bind(this),
       {
         excludeActionTypes: new Set<keyof typeof mouseActions>().add(mouseActions.mousedown),
