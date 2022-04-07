@@ -1,4 +1,4 @@
-import type { Position, mouseActions, AllActions } from "../../ActionListener/actions";
+import { Position, mouseActions, AllActions } from "../../ActionListener/actions";
 import BaseFigure from "../BaseFigure";
 
 export default class Point extends BaseFigure {
@@ -34,9 +34,15 @@ export default class Point extends BaseFigure {
     };
   }
 
-  onStopAction(fn: Function): Point {
-    console.log("stop line");
-    fn();
-    return this;
+  onStopAction(action: AllActions) {
+    
+  }
+
+  getTransferActions(): Set<keyof typeof mouseActions> {
+    const set =  new Set() as Set<keyof typeof mouseActions>;
+    set.add(mouseActions.mouseup);
+    set.add(mouseActions.mousemove);
+    set.add(mouseActions.mousedown);
+    return set;
   }
 }

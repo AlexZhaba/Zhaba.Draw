@@ -11,6 +11,7 @@ export default abstract class BaseFigure {
   protected abstract paintFigure(action: AllActions): void;
 
   abstract beforeStartDraw(position: Position): void;
+  abstract onStopAction(action: AllActions): void;
 
   draw(action: AllActions) {
     this.paintFigure(action);
@@ -23,4 +24,10 @@ export default abstract class BaseFigure {
   checkForStart(action: AllActions) {
     return action.eventType === this.getStartAction();
   }
+
+  clearAll() {
+    this.context.clearRect(0, 0, 1140, 600);
+  }
+
+  abstract getTransferActions(): Set<keyof typeof mouseActions>;
 }
