@@ -3,6 +3,7 @@ import Point from "../figures/Point";
 import Drawer from "./Drawer";
 import type BaseFigure from "../figures/BaseFigure";
 import Rectangle from "../figures/Rectangle";
+import { mouseActions } from "../ActionListener/actions";
 
 type Constructor<I = {}> = new (...args: any[]) => I;
 
@@ -15,8 +16,20 @@ export default class Canvas {
 
   constructor(canvasEl: HTMLCanvasElement, id: string) {
     this.#context = <CanvasRenderingContext2D>canvasEl.getContext("2d");
-    this.#listener = new ActionListener(document.getElementById(id) || window);
-    this.#listener.bindTriggerFunction(this.onAction.bind(this));
+    this.#listener = new ActionListener(window);
+    this.#listener.bindTriggerFunction(
+      this.onAction.bind(this),
+      {
+        excludeActionTypes: new Set<keyof typeof mouseActions>().add(mouseActions.mousedown),
+      },
+    );
+
+    new ActionListener(document.getElementById(id) || window).bindTriggerFunction(
+      this.onAction.bind(this),
+      {
+        includeActionTypes: new Set<keyof typeof mouseActions>().add(mouseActions.mousedown),
+      },
+    );
     this.#drawer = new Drawer(Rectangle, this.#context);
   }
 

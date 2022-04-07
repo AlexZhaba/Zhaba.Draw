@@ -35,7 +35,7 @@ export default class Point extends BaseFigure {
   }
 
   onStopAction(action: AllActions) {
-    
+
   }
 
   getTransferActions(): Set<keyof typeof mouseActions> {

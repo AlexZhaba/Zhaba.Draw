@@ -1,6 +1,10 @@
 import * as Actions from "./actions";
 import createBrowserAction from "./helpers";
 
+interface OptionsType {
+  excludeActionTypes?: Set<keyof typeof Actions.mouseActions>;
+  includeActionTypes?: Set<keyof typeof Actions.mouseActions>;
+}
 export default class ActionListener {
   #target: Window | HTMLElement;
   constructor(
@@ -9,8 +13,23 @@ export default class ActionListener {
     this.#target = target;
   }
 
-  bindTriggerFunction(fn: (action: Actions.AllActions) => void): void {
+  bindTriggerFunction(
+    fn: (action: Actions.AllActions) => void,
+    options?: OptionsType,
+  ): void {
+    console.log(options);
     for (const mouseEvent in Actions.mouseActions) {
+      if (options) {
+        if (
+          options.excludeActionTypes &&
+          options.excludeActionTypes.has(<keyof typeof Actions.mouseActions>mouseEvent)
+        ) continue;
+
+        if (
+          options.includeActionTypes &&
+          !options.includeActionTypes.has(<keyof typeof Actions.mouseActions>mouseEvent)
+        ) continue;
+      }
       this.#target.addEventListener(
         <keyof typeof Actions.mouseActions>mouseEvent,
         (event: Event | MouseEvent) => {
