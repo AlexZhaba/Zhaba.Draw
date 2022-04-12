@@ -29,7 +29,7 @@ export default class Canvas {
         includeActionTypes: new Set<keyof typeof mouseActions>().add(mouseActions.mousedown),
       },
     );
-    this.#drawer = new Drawer(Rectangle, this.#context);
+    this.#drawer = new Drawer(Circle, this.#context);
   }
 
   onAction(action: AllActions) {
@@ -40,6 +40,6 @@ export default class Canvas {
 
   transferTo(canvasSyncEl: HTMLCanvasElement) {
     this.#syncContext = <CanvasRenderingContext2D>canvasSyncEl.getContext("2d");
-    this.#drawer.transfer(new Drawer(Rectangle, this.#syncContext));
+    this.#drawer.transfer(new Drawer(Circle, this.#syncContext));
   }
 }

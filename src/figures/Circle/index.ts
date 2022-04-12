@@ -1,6 +1,5 @@
 import ClearableBaseFigure from "../ClearableBaseFigure";
 import type { AllActions, Position } from "../../ActionListener/actions";
-
 export default class Circle extends ClearableBaseFigure {
   #startPosition: Position = { position: { x: 1, y: 2 } };
 
@@ -12,13 +11,14 @@ export default class Circle extends ClearableBaseFigure {
     this.context.beginPath();
     this.context.lineWidth = 2;
     this.context.strokeStyle = "rgba(0, 0, 0, 1)";
-    this.context.arc(
-      this.#startPosition.position.x, this.#startPosition.position.y,
-      Math.sqrt(
-        Math.abs(action.position.x - this.#startPosition.position.x) ** 2 +
-        Math.abs(action.position.y - this.#startPosition.position.y) ** 2,
-      ),
-      0, 2 * Math.PI,
+    const { position: { x, y } } = this.#startPosition;
+    this.context.ellipse(
+      (x + (action.position.x - x) / 2), (y + (action.position.y - y) / 2),
+      Math.abs((action.position.x - x) / 2),
+      Math.abs((action.position.y - y) / 2),
+      0,
+      0,
+      Math.PI * 2,
     );
     this.context.stroke();
     this.context.closePath();

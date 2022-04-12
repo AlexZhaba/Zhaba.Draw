@@ -30,15 +30,12 @@ export default class Drawer<T extends Constructor<BaseFigure>> {
           this.#figure.clearAll();
         }
       } else {
-        // Баг с mouseover
-        // if (!this.#syncDrawer) return;
         this.#figure.draw(action);
       }
     } else if (this.#figure.checkForStart(action)) {
       if (isSyncAction) this.#syncDrawer?.onGetAction(action);
       this.#mode = "active";
       this.#figure.beforeStartDraw(action);
-      // this.#figure.draw(action);
     }
   }
 
