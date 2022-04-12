@@ -1,7 +1,7 @@
 import ClearableBaseFigure from "../ClearableBaseFigure";
-import type { AllActions, mouseActions, Position } from "../../ActionListener/actions";
+import type { AllActions, Position } from "../../ActionListener/actions";
 
-export default class Rectangle extends ClearableBaseFigure {
+export default class Circle extends ClearableBaseFigure {
   #startPosition: Position = { position: { x: 1, y: 2 } };
 
   constructor(context: CanvasRenderingContext2D) {
@@ -9,13 +9,17 @@ export default class Rectangle extends ClearableBaseFigure {
   }
 
   paintFigure(action: AllActions) {
-    const startX = this.#startPosition.position.x;
-    const startY = this.#startPosition.position.y;
     this.context.beginPath();
     this.context.lineWidth = 2;
     this.context.strokeStyle = "rgba(0, 0, 0, 1)";
-    this.context.moveTo(startX, startY);
-    this.context.rect(startX, startY, action.position.x - startX, action.position.y - startY);
+    this.context.arc(
+      this.#startPosition.position.x, this.#startPosition.position.y,
+      Math.sqrt(
+        Math.abs(action.position.x - this.#startPosition.position.x) ** 2 +
+        Math.abs(action.position.y - this.#startPosition.position.y) ** 2,
+      ),
+      0, 2 * Math.PI,
+    );
     this.context.stroke();
     this.context.closePath();
   }

@@ -4,6 +4,7 @@ import Drawer from "./Drawer";
 import type BaseFigure from "../figures/BaseFigure";
 import Rectangle from "../figures/Rectangle";
 import { mouseActions } from "../ActionListener/actions";
+import Circle from "../figures/Circle";
 
 type Constructor<I = {}> = new (...args: any[]) => I;
 
