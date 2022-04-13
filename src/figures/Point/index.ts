@@ -1,7 +1,7 @@
 import { Position, mouseActions, AllActions } from "../../ActionListener/actions";
-import BaseFigure from "../BaseFigure";
-
+import BaseFigure, { FigureName } from "../BaseFigure";
 export default class Point extends BaseFigure {
+  static modeName = FigureName.POINT;
   #lastPosition: Position = { position: { x: 1, y: 2 } };
 
   constructor(context: CanvasRenderingContext2D) {

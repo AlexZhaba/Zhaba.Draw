@@ -1,5 +1,6 @@
 import "./index.scss";
 import Canvas from "./Canvas";
+import Toolbox from "./Toolbox";
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvasEl = <HTMLCanvasElement | null>document.getElementById("canvas");
@@ -11,4 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const canvas = new Canvas(
     canvasTempEl, "canvas_template",
   ).transferTo(canvasEl);
+
+  const toolbox = new Toolbox("aside").observeStateChanges(
+    canvas.onToolboxChanges.bind(canvas),
+  );
 });

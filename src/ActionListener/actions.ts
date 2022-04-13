@@ -3,6 +3,7 @@ const mouseActions = {
   mouseup: "mouseup",
   mousedown: "mousedown",
   mouseover: "mouseover",
+  click: "click",
 } as const;
 
 interface Position {
@@ -28,7 +29,11 @@ interface MousemoveAction extends Position {
   eventType: typeof mouseActions.mousemove;
 }
 
-type AllActions = MousedownAction | MouseupAction | MousemoveAction | MouseoverAction;
+interface ClickAction extends Position {
+  eventType: typeof mouseActions.click;
+}
+
+type AllActions = MousedownAction | MouseupAction | MousemoveAction | MouseoverAction | ClickAction;
 
 export {
   Position,

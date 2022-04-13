@@ -5,6 +5,9 @@ import type BaseFigure from "../figures/BaseFigure";
 import Rectangle from "../figures/Rectangle";
 import { mouseActions } from "../ActionListener/actions";
 import Circle from "../figures/Circle";
+import figures from "../figures";
+import type { ToolboxState } from "../Toolbox";
+import { FigureName } from "../figures/BaseFigure";
 
 type Constructor<I = {}> = new (...args: any[]) => I;
 
@@ -38,8 +41,25 @@ export default class Canvas {
     }
   }
 
-  transferTo(canvasSyncEl: HTMLCanvasElement) {
+  transferTo(canvasSyncEl: HTMLCanvasElement): this {
     this.#syncContext = <CanvasRenderingContext2D>canvasSyncEl.getContext("2d");
     this.#drawer.transfer(new Drawer(Circle, this.#syncContext));
+    return this;
+  }
+
+  onToolboxChanges(state: ToolboxState): void {
+    console.log("123");
+    const figure = figures.find(fig => fig.modeName === FigureName[state.modeName]);
+    console.log("123");
+    if (!figure) {
+      throw new Error(`Figure with ${state.modeName}`);
+    }
+
+    console.log("123");
+    this.#drawer = new Drawer(figure, this.#context);
+    console.log("123");
+    if (this.#syncContext) {
+      this.#drawer.transfer(new Drawer(figure, this.#syncContext));
+    }
   }
 }

@@ -1,4 +1,4 @@
-import BaseFigure from "./BaseFigure";
+import BaseFigure, { FigureName } from "./BaseFigure";
 import { AllActions, mouseActions, Position } from "../ActionListener/actions";
 
 export default abstract class ClearableBaseFigure extends BaseFigure {
@@ -7,11 +7,11 @@ export default abstract class ClearableBaseFigure extends BaseFigure {
   }
 
   getStopAction(): keyof typeof mouseActions {
-    return "mouseup";
+    return mouseActions.mouseup;
   }
 
   getStartAction(): keyof typeof mouseActions {
-    return "mousedown";
+    return mouseActions.mousedown;
   }
 
   override draw(action: AllActions) {

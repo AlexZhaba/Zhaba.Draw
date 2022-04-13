@@ -1,6 +1,12 @@
 import type { AllActions } from "../ActionListener";
 import type { mouseActions, Position } from "../ActionListener/actions";
 
+export enum FigureName {
+  RECTANGLE,
+  POINT,
+  CIRCLE,
+}
+
 export default abstract class BaseFigure {
   protected context: CanvasRenderingContext2D;
   constructor(context: CanvasRenderingContext2D) {

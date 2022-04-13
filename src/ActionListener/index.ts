@@ -1,7 +1,7 @@
 import * as Actions from "./actions";
 import createBrowserAction from "./helpers";
 
-interface OptionsType {
+export interface OptionsType {
   excludeActionTypes?: Set<keyof typeof Actions.mouseActions>;
   includeActionTypes?: Set<keyof typeof Actions.mouseActions>;
 }

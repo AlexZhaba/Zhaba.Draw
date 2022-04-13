@@ -1,7 +1,9 @@
 import ClearableBaseFigure from "../ClearableBaseFigure";
-import type { AllActions, mouseActions, Position } from "../../ActionListener/actions";
+import type { AllActions, Position } from "../../ActionListener/actions";
+import { FigureName } from "../BaseFigure";
 
 export default class Rectangle extends ClearableBaseFigure {
+  static modeName = FigureName.RECTANGLE;
   #startPosition: Position = { position: { x: 1, y: 2 } };
 
   constructor(context: CanvasRenderingContext2D) {
