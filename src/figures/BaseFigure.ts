@@ -32,7 +32,8 @@ export default abstract class BaseFigure {
   }
 
   clearAll() {
-    this.context.clearRect(0, 0, 1140, 600);
+    // TODO: Забайндить на Canvas.layout
+    this.context.clearRect(0, 0, 4000, 4000);
   }
 
   abstract getTransferActions(): Set<keyof typeof mouseActions>;

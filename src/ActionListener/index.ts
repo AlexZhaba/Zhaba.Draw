@@ -7,10 +7,14 @@ export interface OptionsType {
 }
 export default class ActionListener {
   #target: Window | HTMLElement;
+  readonly #canvas: HTMLCanvasElement | null = null;
+
   constructor(
     target: Window | HTMLElement,
+    canvas?: HTMLCanvasElement,
   ) {
     this.#target = target;
+    if (canvas) this.#canvas = canvas;
   }
 
   bindTriggerFunction(
@@ -34,7 +38,7 @@ export default class ActionListener {
         <keyof typeof Actions.mouseActions>mouseEvent,
         (event: Event | MouseEvent) => {
           if ("x" in event) {
-            fn(createBrowserAction(event, <keyof typeof Actions.mouseActions>mouseEvent));
+            fn(createBrowserAction(event, <keyof typeof Actions.mouseActions>mouseEvent, this.#canvas));
           }
         },
       );
