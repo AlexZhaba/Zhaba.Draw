@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -10,15 +12,16 @@ body, html {
 
 .wrapper {
   display: flex;
-  min-height: calc(100vh - 100px);
+  // min-height: calc(100vh - 100px - 50px);
   flex-direction: column;
   width: 100%;
   margin-top: 100px; 
+  margin-bottom: 50px;
 }
 
 #canvas {
-  min-width: 100vw;
-  min-height: 600px;
+  // min-width: 100vw;
+  // min-height: 600px;
   background: #FFF;
   flex-shrink: 0;
   background: white;
@@ -28,24 +31,26 @@ body, html {
   position: absolute;
   top: 100px;
   left: 0;
-  min-height: 600px;
-  min-width: 100vw;
+  // min-height: 600px;
+  // min-width: 100vw;
   background: transparent;
   cursor: crosshair;
 }
 
 #aside {
   width: 100%;
-  padding-top: 10px; 
-  height: 100px - 10px;
+  padding-top: 10px;
+  background: beige;
+  height: 100px;
   flex-shrink: 0;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   display: flex;
-  gap: 20px;
+  gap: 15px;
   align-items: flex-start;
+  z-index: 2;
 
   & > :first-child {
     margin-left: 20px;
@@ -63,7 +68,7 @@ body, html {
     transition: .2s all;
 
     &:hover {
-      background: #eee;
+      background: #ddd;
       transition: .2s all;
     }
 
@@ -80,6 +85,42 @@ body, html {
       background: transparent;
       width: 24px;
       height: 24px;
+    }
+  }
+}
+
+#bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: beige;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  font-family: "Roboto Mono";
+  gap: 20px;
+
+  &__size, &__cursor {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: .2s all;
+    padding: 3px;
+    border-radius: 5px;
+  }
+
+  &__size {
+    transition: .2s all;
+    cursor: pointer;
+    &:hover {
+      background: #ddd;
+      transition: .2s all;
+    }
+
+    &:active {
+      background: #bbb;
     }
   }
 }

@@ -1,3 +1,4 @@
+import type { CanvasSizeAction } from './../BottomBar/index';
 import ActionListener, { AllActions } from "../ActionListener";
 import Drawer from "./Drawer";
 import type BaseFigure from "../figures/BaseFigure";
@@ -15,11 +16,17 @@ interface CanvasLayout {
   zoom: number;
 }
 
+interface ConnectedObject {
+  onGetAction: (action: AllActions | CanvasSizeAction) => void;
+  bindTriggerFunction: Function;
+}
+
 export default class Canvas {
   readonly #context: CanvasRenderingContext2D;
   #drawer: Drawer<Constructor<BaseFigure>>;
   #syncContext: CanvasRenderingContext2D | null = null;
   #layout: CanvasLayout;
+  #connector?: ConnectedObject;
 
   constructor(canvasEl: HTMLCanvasElement, id: string) {
     this.#context = <CanvasRenderingContext2D>canvasEl.getContext("2d");
@@ -39,7 +46,7 @@ export default class Canvas {
     this.#drawer = new Drawer(Circle, this.#context);
     this.#layout = {
       width: document.documentElement.clientWidth,
-      height: document.documentElement.clientHeight - 100,
+      height: document.documentElement.clientHeight - 100 - 50,
       zoom: 1,
     };
     this.#setLayout(canvasEl);
@@ -52,16 +59,30 @@ export default class Canvas {
     if (this.#drawer) {
       this.#drawer.onGetAction(action);
     }
+    if (this.#connector) {
+      this.#connector.onGetAction(action);
+    }
   }
 
-  transferTo(canvasSyncEl: HTMLCanvasElement): this {
+  transferTo(canvasSyncEl: HTMLCanvasElement) {
     this.#syncContext = <CanvasRenderingContext2D>canvasSyncEl.getContext("2d");
     this.#drawer.transfer(new Drawer(Circle, this.#syncContext));
     this.#setLayout(canvasSyncEl);
     return this;
   }
 
-  onToolboxChanges(state: ToolboxState): void {
+  connectedWith(connector: ConnectedObject) {
+    this.#connector = connector;
+    this.#connector.onGetAction({
+      eventType: "CANVAS_SIZE",
+      canvas_width: this.#layout.width,
+      canvas_height: this.#layout.height,
+    });
+    // this.#connector.bindTriggerFunction()
+    return this;
+  }
+
+  onToolboxChanges(state: ToolboxState) {
     console.log(`toolbox`);
     console.log(state);
     const figure = figures.find(fig => fig.modeName === FigureName[state.modeName]);

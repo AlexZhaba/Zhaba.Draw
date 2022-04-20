@@ -1,6 +1,7 @@
 import "./index.scss";
 import Canvas from "./Canvas";
 import Toolbox from "./Toolbox";
+import BottomBar from "./BottomBar";
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvasEl = <HTMLCanvasElement | null>document.getElementById("canvas");
@@ -9,9 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("Canvas doesn't exist");
     return;
   }
+
+  const bottomBar = new BottomBar("bottom-bar");
+
   const canvas = new Canvas(
     canvasTempEl, "canvas_template",
-  ).transferTo(canvasEl);
+  ).connectedWith(bottomBar).transferTo(canvasEl);
 
   const toolbox = new Toolbox("aside").observeStateChanges(
     canvas.onToolboxChanges.bind(canvas),
