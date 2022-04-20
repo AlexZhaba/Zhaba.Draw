@@ -1,7 +1,8 @@
 import { Position, mouseActions, AllActions } from "../../ActionListener/actions";
 import BaseFigure, { FigureName } from "../BaseFigure";
-export default class Point extends BaseFigure {
-  static modeName = FigureName.POINT;
+
+export default class Brush extends BaseFigure {
+  static modeName = FigureName.BRUSH;
   #lastPosition: Position = { position: { x: 1, y: 2 } };
 
   constructor(context: CanvasRenderingContext2D) {
@@ -9,10 +10,10 @@ export default class Point extends BaseFigure {
   }
 
   paintFigure(action: AllActions) {
-    this.context.lineWidth = 1;
-    this.context.lineCap = "square";
     this.context.beginPath();
     this.context.moveTo(this.#lastPosition.position.x, this.#lastPosition.position.y);
+    this.context.lineWidth = 18;
+    this.context.lineCap = "round";
     this.context.lineTo(action.position.x, action.position.y);
     this.context.stroke();
     this.context.closePath();

@@ -14,10 +14,10 @@ export default function createBrowserAction(
   actionType: keyof typeof mouseActions,
   canvasEl: HTMLCanvasElement | null,
 ): AllActions {
-  console.log(event.x, event.y);
+  // console.log(event.x, event.y);
   const { x, y } = canvasEl ?
     convertCoordinateFromDocumentToCanvas(event.x, event.y, canvasEl) : event;
-  console.log("NEW", x, y);
+  // console.log("NEW", x, y);
   return {
     eventType: actionType,
     position: {

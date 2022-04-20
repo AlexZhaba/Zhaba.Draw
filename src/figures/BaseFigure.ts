@@ -5,6 +5,7 @@ export enum FigureName {
   RECTANGLE,
   POINT,
   CIRCLE,
+  BRUSH,
 }
 
 export default abstract class BaseFigure {

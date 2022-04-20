@@ -2,7 +2,7 @@ import ActionListener, { AllActions, OptionsType } from "../../ActionListener";
 import { getIdByModeName } from "../helpers";
 import * as Actions from "../../ActionListener/actions";
 
-type ModeName = "RECTANGLE" | "CIRCLE" | "POINT";
+type ModeName = "RECTANGLE" | "CIRCLE" | "POINT" | "BRUSH";
 export type SetStateType = (modeName: StateMode) => void;
 
 export interface ToolboxButton {
@@ -19,8 +19,6 @@ export interface StateMode {
 
 export abstract class Button {
   abstract modeName: ModeName;
-  // protected abstract onAction(action: AllActions): StateMode;
-  // protected abstract getListenerOptions(): OptionsType | undefined;
 
   bindSelfListener(setState: SetStateType) {
     console.log(this);

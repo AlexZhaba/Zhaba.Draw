@@ -15,7 +15,6 @@ export default class Rectangle extends ClearableBaseFigure {
     const startY = this.#startPosition.position.y;
     this.context.beginPath();
     this.context.lineWidth = 2;
-    this.context.strokeStyle = "rgba(0, 0, 0, 1)";
     this.context.moveTo(startX, startY);
     this.context.rect(startX, startY, action.position.x - startX, action.position.y - startY);
     this.context.stroke();

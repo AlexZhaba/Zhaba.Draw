@@ -7,9 +7,13 @@ const ICON_SIZE_PX = "24";
 export interface ToolboxState extends StateMode {
 }
 
+const initialState: ToolboxState = {
+  modeName: "CIRCLE",
+};
+
 export default class Toolbox {
   #mount: HTMLElement;
-  #state?: ToolboxState;
+  #state: ToolboxState = initialState;
   #buttons: ToolboxButtonFigure[];
   #changeStateObserver?: (state: ToolboxState) => void;
 
@@ -22,21 +26,28 @@ export default class Toolbox {
     this.#buttons = [];
     this.#getToolboxState();
     this.#render();
-    this.#buttons.forEach((button) => {
-      button.bindSelfListener(this.#setState.bind(this));
-    });
+
+    // get initialState for canvas
+    this.#setState(initialState);
   }
 
   #render() {
     let stringHTML = "";
     this.#buttons.forEach((button) => {
       stringHTML += `
-        <svg id="${getIdByModeName(button.modeName)}" viewBox="0 0 ${ICON_SIZE_PX} ${ICON_SIZE_PX}" height="${ICON_SIZE_PX}" width="${ICON_SIZE_PX}">
-          <use href="#svg_${getIdByModeName(button.modeName).toLowerCase()}" width="${ICON_SIZE_PX}" height="${ICON_SIZE_PX}"></use>
-        </svg>
+        <div class="toolbox__button ${this.#state.modeName === button.modeName && "toolbox__button--active"}" id="${getIdByModeName(button.modeName)}">
+          <svg viewBox="0 0 ${ICON_SIZE_PX} ${ICON_SIZE_PX}" height="${ICON_SIZE_PX}" width="${ICON_SIZE_PX}">
+            <use href="#svg_${getIdByModeName(button.modeName).toLowerCase()}" width="${ICON_SIZE_PX}" height="${ICON_SIZE_PX}"></use>
+          </svg>
+        </div>
       `;
     });
     this.#mount.innerHTML = stringHTML;
+
+    // re-binding
+    this.#buttons.forEach((button) => {
+      button.bindSelfListener(this.#setState.bind(this));
+    });
   }
 
   #setState(newState: StateMode): void {
@@ -44,9 +55,11 @@ export default class Toolbox {
       ...this.#state,
       ...newState,
     };
+    console.log(newState, this.#state);
     if (this.#changeStateObserver) {
       this.#changeStateObserver(this.#state);
     }
+    this.#render();
   }
 
   #getToolboxState() {

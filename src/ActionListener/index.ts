@@ -38,7 +38,9 @@ export default class ActionListener {
         <keyof typeof Actions.mouseActions>mouseEvent,
         (event: Event | MouseEvent) => {
           if ("x" in event) {
-            fn(createBrowserAction(event, <keyof typeof Actions.mouseActions>mouseEvent, this.#canvas));
+            fn(createBrowserAction(
+              event, <keyof typeof Actions.mouseActions>mouseEvent, this.#canvas,
+            ));
           }
         },
       );

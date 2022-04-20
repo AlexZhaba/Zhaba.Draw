@@ -17,7 +17,6 @@ interface CanvasLayout {
 
 export default class Canvas {
   readonly #context: CanvasRenderingContext2D;
-  #mode: "point" = "point";
   #drawer: Drawer<Constructor<BaseFigure>>;
   #syncContext: CanvasRenderingContext2D | null = null;
   #layout: CanvasLayout;
@@ -44,8 +43,8 @@ export default class Canvas {
       zoom: 1,
     };
     this.#setLayout(canvasEl);
-    this.#layout.width = 2000;
-    this.#layout.height = 4000;
+    // this.#layout.width = 2000;
+    // this.#layout.height = 4000;
     this.#setLayout(canvasEl);
   }
 
@@ -63,10 +62,13 @@ export default class Canvas {
   }
 
   onToolboxChanges(state: ToolboxState): void {
+    console.log(`toolbox`);
+    console.log(state);
     const figure = figures.find(fig => fig.modeName === FigureName[state.modeName]);
     if (!figure) {
       throw new Error(`Figure with ${state.modeName}`);
     }
+    console.log(figure);
     this.#drawer = new Drawer(figure, this.#context);
     if (this.#syncContext) {
       this.#drawer.transfer(new Drawer(figure, this.#syncContext));

@@ -13,6 +13,7 @@ export default class Drawer<T extends Constructor<BaseFigure>> {
 
   constructor(figure: T, context: CanvasRenderingContext2D, mode?: modeType) {
     this.#figure = new figure(context);
+    console.log(this.#figure);
     this.#mode = mode || "inactive";
   }
 
