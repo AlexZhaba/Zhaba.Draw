@@ -5,9 +5,15 @@ export interface OptionsType {
   excludeActionTypes?: Set<keyof typeof Actions.mouseActions>;
   includeActionTypes?: Set<keyof typeof Actions.mouseActions>;
 }
+
+interface Listener {
+  action: keyof typeof Actions.mouseActions;
+  listener: (event: Event | MouseEvent) => void;
+}
 export default class ActionListener {
   #target: Window | HTMLElement;
   readonly #canvas: HTMLCanvasElement | null = null;
+  #listeners: Listener[] = [];
 
   constructor(
     target: Window | HTMLElement,
@@ -20,7 +26,7 @@ export default class ActionListener {
   bindTriggerFunction(
     fn: (action: Actions.AllActions) => void,
     options?: OptionsType,
-  ): void {
+  ) {
     console.log(options);
     for (const mouseEvent in Actions.mouseActions) {
       if (options) {
@@ -34,17 +40,30 @@ export default class ActionListener {
           !options.includeActionTypes.has(<keyof typeof Actions.mouseActions>mouseEvent)
         ) continue;
       }
+      const listener = (event: Event | MouseEvent) => {
+        if ("x" in event) {
+          fn(createBrowserAction(
+            event, <keyof typeof Actions.mouseActions>mouseEvent, this.#canvas,
+          ));
+        }
+      };
+      this.#listeners.push({
+        action: <keyof typeof Actions.mouseActions>mouseEvent,
+        listener,
+      });
       this.#target.addEventListener(
         <keyof typeof Actions.mouseActions>mouseEvent,
-        (event: Event | MouseEvent) => {
-          if ("x" in event) {
-            fn(createBrowserAction(
-              event, <keyof typeof Actions.mouseActions>mouseEvent, this.#canvas,
-            ));
-          }
-        },
+        listener,
       );
     }
+
+    return this;
+  }
+
+  removeListeners() {
+    this.#listeners.forEach(
+      listener => this.#target.removeEventListener(listener.action, listener.listener,
+    ));
   }
 }
 

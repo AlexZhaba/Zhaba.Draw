@@ -1,5 +1,5 @@
 import BaseFigure, { FigureName } from "./BaseFigure";
-import { AllActions, mouseActions, Position } from "../ActionListener/actions";
+import { AllActions, mouseActions, Position } from "../../../ActionListener/actions";
 
 export default abstract class ClearableBaseFigure extends BaseFigure {
   constructor(context: CanvasRenderingContext2D) {

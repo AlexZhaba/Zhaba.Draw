@@ -1,5 +1,5 @@
-import type BaseFigure from "../figures/BaseFigure";
-import type { AllActions } from "../ActionListener";
+import type BaseFigure from "./figures/BaseFigure";
+import type { AllActions } from "../../ActionListener";
 
 // TODO: Переделать
 type Constructor<I> = new (...args: ConstructorParameters<typeof BaseFigure>) => I;
@@ -7,7 +7,7 @@ type Constructor<I> = new (...args: ConstructorParameters<typeof BaseFigure>) =>
 type modeType = "active" | "inactive";
 
 export default class Drawer<T extends Constructor<BaseFigure>> {
-  #figure: BaseFigure;
+  readonly #figure: BaseFigure;
   #mode: modeType;
   #syncDrawer: Drawer<Constructor<BaseFigure>> | null = null;
 

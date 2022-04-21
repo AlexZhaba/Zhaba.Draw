@@ -1,9 +1,8 @@
 import ClearableBaseFigure from "../ClearableBaseFigure";
-import type { AllActions, Position } from "../../ActionListener/actions";
+import type { AllActions, Position } from "../../../../ActionListener/actions";
 import { FigureName } from "../BaseFigure";
-
-export default class Rectangle extends ClearableBaseFigure {
-  static modeName = FigureName.RECTANGLE;
+export default class Circle extends ClearableBaseFigure {
+  static modeName = FigureName.CIRCLE;
   #startPosition: Position = { position: { x: 1, y: 2 } };
 
   constructor(context: CanvasRenderingContext2D) {
@@ -11,12 +10,15 @@ export default class Rectangle extends ClearableBaseFigure {
   }
 
   paintFigure(action: AllActions) {
-    const startX = this.#startPosition.position.x;
-    const startY = this.#startPosition.position.y;
     this.context.beginPath();
     this.context.lineWidth = 2;
-    this.context.moveTo(startX, startY);
-    this.context.rect(startX, startY, action.position.x - startX, action.position.y - startY);
+    this.context.strokeStyle = "rgba(0, 0, 0, 1)";
+    const { position: { x, y } } = this.#startPosition;
+    this.context.ellipse(
+      (x + (action.position.x - x) / 2), (y + (action.position.y - y) / 2),
+      Math.abs((action.position.x - x) / 2), Math.abs((action.position.y - y) / 2),
+      0, 0, Math.PI * 2,
+    );
     this.context.stroke();
     this.context.closePath();
   }

@@ -1,7 +1,7 @@
 import "./index.scss";
-import Canvas from "./Canvas";
-import Toolbox from "./Toolbox";
-import BottomBar from "./BottomBar";
+import Canvas from "./components/Canvas";
+import Toolbox from "./components/Toolbox";
+import BottomBar from "./components/BottomBar";
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvasEl = <HTMLCanvasElement | null>document.getElementById("canvas");

@@ -1,6 +1,6 @@
-import ActionListener, { AllActions, OptionsType } from "../../ActionListener";
+import ActionListener, { AllActions, OptionsType } from "../../../ActionListener";
 import { getIdByModeName } from "../helpers";
-import * as Actions from "../../ActionListener/actions";
+import * as Actions from "../../../ActionListener/actions";
 
 type ModeName = "RECTANGLE" | "CIRCLE" | "POINT" | "BRUSH";
 export type SetStateType = (modeName: StateMode) => void;

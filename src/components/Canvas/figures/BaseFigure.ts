@@ -1,5 +1,5 @@
-import type { AllActions } from "../ActionListener";
-import type { mouseActions, Position } from "../ActionListener/actions";
+import type { AllActions } from "../../../ActionListener";
+import type { mouseActions, Position } from "../../../ActionListener/actions";
 
 export enum FigureName {
   RECTANGLE,

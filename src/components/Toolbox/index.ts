@@ -1,11 +1,9 @@
 import buttons from "./buttons";
 import type { StateMode, ToolboxButtonFigure } from "./buttons/AbstractButton";
 import { getIdByModeName } from "./helpers";
+import type { ToolboxState } from "./types";
 
 const ICON_SIZE_PX = "24";
-
-export interface ToolboxState extends StateMode {
-}
 
 const initialState: ToolboxState = {
   modeName: "CIRCLE",

@@ -8,6 +8,7 @@
 
 body, html {
   background: beige;
+  font-family: "Roboto Mono";
 }
 
 .wrapper {
@@ -15,7 +16,7 @@ body, html {
   // min-height: calc(100vh - 100px - 50px);
   flex-direction: column;
   width: 100%;
-  margin-top: 100px; 
+  margin-top: 100px;
   margin-bottom: 50px;
 }
 
@@ -99,8 +100,8 @@ body, html {
   padding: 0 20px;
   display: flex;
   align-items: center;
-  font-family: "Roboto Mono";
   gap: 20px;
+  user-select: none;
 
   &__size, &__cursor {
     display: flex;
@@ -122,5 +123,48 @@ body, html {
     &:active {
       background: #bbb;
     }
+  }
+}
+
+#modal-root {
+  visibility: hidden;
+}
+
+.modal-root__close {
+  transform: translate(5px, 33px);
+  width: 24px;
+  cursor: pointer;
+}
+
+.window-wrapper {
+  display: flex;
+  flex-direction: column;
+  // gap: 30px;
+  padding: 40px;
+}
+
+.custom-input {
+  outline: none;
+  padding: 10px;
+  font-size: 20px;
+  margin-bottom: 20px;
+  margin-top: 5px;
+}
+
+.custom-button {
+  height: 40px;
+  border: none;
+  font-size: 17px;
+  cursor: pointer;
+  transition: .2s all;
+  border-radius: 5px;
+
+  &:hover {
+    background: #ddd;
+    transition: .2s all;
+  }
+
+  &:active {
+    background: #bbb;
   }
 }

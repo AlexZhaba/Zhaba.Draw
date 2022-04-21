@@ -1,4 +1,4 @@
-import { Position, mouseActions, AllActions } from "../../ActionListener/actions";
+import { Position, mouseActions, AllActions } from "../../../../ActionListener/actions";
 import BaseFigure, { FigureName } from "../BaseFigure";
 export default class Point extends BaseFigure {
   static modeName = FigureName.POINT;

@@ -1,12 +1,11 @@
-import type { CanvasSizeAction } from './../BottomBar/index';
-import ActionListener, { AllActions } from "../ActionListener";
+import type { CanvasSizeAction } from "../BottomBar/types";
+import ActionListener, { AllActions } from "../../ActionListener";
 import Drawer from "./Drawer";
-import type BaseFigure from "../figures/BaseFigure";
-import { mouseActions } from "../ActionListener/actions";
-import Circle from "../figures/Circle";
-import figures from "../figures";
-import type { ToolboxState } from "../Toolbox";
-import { FigureName } from "../figures/BaseFigure";
+import BaseFigure, { FigureName } from "./figures/BaseFigure";
+import { mouseActions } from "../../ActionListener/actions";
+import Circle from "./figures/Circle";
+import figures from "./figures";
+import type { ToolboxState } from "../Toolbox/types";
 
 type Constructor<I = {}> = new (...args: any[]) => I;
 
@@ -16,6 +15,10 @@ interface CanvasLayout {
   zoom: number;
 }
 
+export type ChangeCavnasLayout = {
+  [K in keyof CanvasLayout]?: CanvasLayout[K];
+};
+
 interface ConnectedObject {
   onGetAction: (action: AllActions | CanvasSizeAction) => void;
   bindTriggerFunction: Function;
@@ -23,6 +26,8 @@ interface ConnectedObject {
 
 export default class Canvas {
   readonly #context: CanvasRenderingContext2D;
+  #canvasEl: HTMLCanvasElement;
+  #syncCanvasEl?: HTMLCanvasElement;
   #drawer: Drawer<Constructor<BaseFigure>>;
   #syncContext: CanvasRenderingContext2D | null = null;
   #layout: CanvasLayout;
@@ -49,10 +54,11 @@ export default class Canvas {
       height: document.documentElement.clientHeight - 100 - 50,
       zoom: 1,
     };
-    this.#setLayout(canvasEl);
+    this.#canvasEl = canvasEl;
+    this.#showLayout(this.#canvasEl);
     // this.#layout.width = 2000;
     // this.#layout.height = 4000;
-    this.#setLayout(canvasEl);
+    this.#showLayout(this.#canvasEl);
   }
 
   onAction(action: AllActions) {
@@ -67,7 +73,8 @@ export default class Canvas {
   transferTo(canvasSyncEl: HTMLCanvasElement) {
     this.#syncContext = <CanvasRenderingContext2D>canvasSyncEl.getContext("2d");
     this.#drawer.transfer(new Drawer(Circle, this.#syncContext));
-    this.#setLayout(canvasSyncEl);
+    this.#syncCanvasEl = canvasSyncEl;
+    this.#showLayout(this.#syncCanvasEl);
     return this;
   }
 
@@ -78,7 +85,7 @@ export default class Canvas {
       canvas_width: this.#layout.width,
       canvas_height: this.#layout.height,
     });
-    // this.#connector.bindTriggerFunction()
+    this.#connector.bindTriggerFunction(this.#setLayout.bind(this));
     return this;
   }
 
@@ -96,12 +103,31 @@ export default class Canvas {
     }
   }
 
-  #setLayout(canvasEl: HTMLCanvasElement) {
+  #setLayout(newLayout: ChangeCavnasLayout) {
+    console.log("Set layout");
+    this.#layout = {
+      ...this.#layout,
+      ...newLayout,
+    };
+    this.#showLayout(this.#canvasEl);
+    if (this.#syncCanvasEl) {
+      this.#showLayout(this.#syncCanvasEl);
+    }
+  }
+
+  #showLayout(canvasEl: HTMLCanvasElement) {
     const { width, height, zoom } = this.#layout;
     canvasEl.setAttribute("width", `${width}px`);
     canvasEl.setAttribute("height", `${height}px`);
     canvasEl.style.width = `${width}px`;
     canvasEl.style.height = `${height}px`;
+    if (this.#connector) {
+      this.#connector.onGetAction({
+        eventType: "CANVAS_SIZE",
+        canvas_width: this.#layout.width,
+        canvas_height: this.#layout.height,
+      });
+    }
     return this;
   }
 }
