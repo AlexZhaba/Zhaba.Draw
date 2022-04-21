@@ -1,0 +1,117 @@
+/*!***************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/index.scss ***!
+  \***************************************************************************************************************************************************/
+@import url(https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&display=swap);
+/*!*******************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/index.scss (1) ***!
+  \*******************************************************************************************************************************************************/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  background: beige;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+
+#canvas {
+  background: #FFF;
+  flex-shrink: 0;
+  background: white;
+}
+
+#canvas_template {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  background: transparent;
+  cursor: crosshair;
+}
+
+#aside {
+  width: 100%;
+  padding-top: 10px;
+  background: beige;
+  height: 100px;
+  flex-shrink: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  z-index: 2;
+}
+#aside > :first-child {
+  margin-left: 20px;
+}
+
+.toolbox__button {
+  background: #FFF;
+  padding: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 0px 0px 2px 2px transparent;
+  transition: 0.2s all;
+}
+.toolbox__button:hover {
+  background: #ddd;
+  transition: 0.2s all;
+}
+.toolbox__button:active {
+  background: #bbb;
+}
+.toolbox__button--active {
+  box-shadow: 0px 0px 0px 2px black;
+  transition: 0.2s all;
+}
+.toolbox__button > svg {
+  background: transparent;
+  width: 24px;
+  height: 24px;
+}
+
+#bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: beige;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  font-family: "Roboto Mono";
+  gap: 20px;
+}
+#bottom-bar__size, #bottom-bar__cursor {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.2s all;
+  padding: 3px;
+  border-radius: 5px;
+}
+#bottom-bar__size {
+  transition: 0.2s all;
+  cursor: pointer;
+}
+#bottom-bar__size:hover {
+  background: #ddd;
+  transition: 0.2s all;
+}
+#bottom-bar__size:active {
+  background: #bbb;
+}
+
+/*# sourceMappingURL=app.css.map*/
