@@ -1,5 +1,7 @@
 import { Position, mouseActions, AllActions } from "../../../../ActionListener/actions";
-import BaseFigure, { FigureName } from "../BaseFigure";
+import BaseFigure from "../BaseFigure";
+import { FigureName } from "../../../../types";
+
 export default class Point extends BaseFigure {
   static modeName = FigureName.POINT;
   #lastPosition: Position = { position: { x: 1, y: 2 } };

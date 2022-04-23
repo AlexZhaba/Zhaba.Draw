@@ -1,5 +1,6 @@
 import { Position, mouseActions, AllActions } from "../../../../ActionListener/actions";
-import BaseFigure, { FigureName } from "../BaseFigure";
+import BaseFigure from "../BaseFigure";
+import { FigureName } from "../../../../types";
 
 export default class Brush extends BaseFigure {
   static modeName = FigureName.BRUSH;

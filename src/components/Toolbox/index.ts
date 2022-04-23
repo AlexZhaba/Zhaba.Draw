@@ -1,18 +1,19 @@
-import buttons from "./buttons";
-import type { StateMode, ToolboxButtonFigure } from "./buttons/AbstractButton";
+// import buttons from "./buttons";
+import modeButtons from "./buttons/mode";
+import type { StateMode, ToolboxButton } from "./buttons/types";
 import { getIdByModeName } from "./helpers";
 import type { ToolboxState } from "./types";
-
-const ICON_SIZE_PX = "24";
+import { FigureName } from "../../types";
 
 const initialState: ToolboxState = {
-  modeName: "CIRCLE",
+  modeName: FigureName.BRUSH,
+  // strokeStyle: "5px",
 };
 
 export default class Toolbox {
   #mount: HTMLElement;
   #state: ToolboxState = initialState;
-  #buttons: ToolboxButtonFigure[];
+  #buttons: ToolboxButton[];
   #changeStateObserver?: (state: ToolboxState) => void;
 
   constructor(mount: string) {
@@ -24,9 +25,6 @@ export default class Toolbox {
     this.#buttons = [];
     this.#getToolboxState();
     this.#render();
-
-    // get initialState for canvas
-    this.#setState(initialState);
   }
 
   #render() {
@@ -34,9 +32,7 @@ export default class Toolbox {
     this.#buttons.forEach((button) => {
       stringHTML += `
         <div class="toolbox__button ${this.#state.modeName === button.modeName && "toolbox__button--active"}" id="${getIdByModeName(button.modeName)}">
-          <svg viewBox="0 0 ${ICON_SIZE_PX} ${ICON_SIZE_PX}" height="${ICON_SIZE_PX}" width="${ICON_SIZE_PX}">
-            <use href="#svg_${getIdByModeName(button.modeName).toLowerCase()}" width="${ICON_SIZE_PX}" height="${ICON_SIZE_PX}"></use>
-          </svg>
+          ${button.renderContent()}
         </div>
       `;
     });
@@ -49,12 +45,14 @@ export default class Toolbox {
   }
 
   #setState(newState: StateMode): void {
+    console.log("setState");
     this.#state =  {
       ...this.#state,
       ...newState,
     };
     console.log(newState, this.#state);
     if (this.#changeStateObserver) {
+      console.log("CHANGE STATE");
       this.#changeStateObserver(this.#state);
     }
     this.#render();
@@ -62,14 +60,14 @@ export default class Toolbox {
 
   #getToolboxState() {
     // Получаем экземпляры кнопок
-    buttons.forEach((button) => {
-      this.#buttons.push(
-        new button(),
-      );
+    modeButtons.forEach((button) => {
+      this.#buttons.push(button);
     });
   }
 
   observeStateChanges(fn: (state: ToolboxState) => void) {
     this.#changeStateObserver = fn;
+    // get initialState for canvas
+    this.#setState(initialState);
   }
 }

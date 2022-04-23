@@ -1,0 +1,6 @@
+export enum FigureName {
+  RECTANGLE = "FIGURE_RECTANGLE",
+  POINT = "FIGURE_POINT",
+  CIRCLE = "FIGURE_CIRCLE",
+  BRUSH = "FIGURE_BRUSH",
+}

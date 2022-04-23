@@ -3,7 +3,7 @@ import { mouseActions } from "../../ActionListener/actions";
 import type { BottomBarState, CanvasSizeAction, CanvasSize } from "./types";
 import Modal from "../Modal";
 import CanvasSizeModalReflection from "./CanvasSizeModalReflection";
-import type { ChangeCavnasLayout } from "../Canvas";
+import type { ChangeCanvasLayout } from "../Canvas";
 
 const initialState: BottomBarState = {
   cursor_x: 0,
@@ -17,7 +17,7 @@ export default class BottomBar {
   #mountId: string;
   #state: BottomBarState = initialState;
   #isBind: boolean = false;
-  #trigger?: (data: ChangeCavnasLayout) => void;
+  #trigger?: (data: ChangeCanvasLayout) => void;
 
   constructor(mount: string) {
     this.#mountId = mount;
@@ -41,7 +41,7 @@ export default class BottomBar {
     }
   }
 
-  bindTriggerFunction(trigger: (data: ChangeCavnasLayout) => void) {
+  bindTriggerFunction(trigger: (data: ChangeCanvasLayout) => void) {
     console.log("LOOL");
     this.#trigger = trigger;
   }

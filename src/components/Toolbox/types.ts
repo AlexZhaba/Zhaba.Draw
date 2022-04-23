@@ -1,4 +1,4 @@
-import type { StateMode } from "./buttons/AbstractButton";
+import type { StateMode } from "./buttons/types";
 
 export interface ToolboxState extends StateMode {
 }

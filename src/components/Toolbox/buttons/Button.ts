@@ -1,24 +1,13 @@
 import ActionListener, { AllActions, OptionsType } from "../../../ActionListener";
 import { getIdByModeName } from "../helpers";
 import * as Actions from "../../../ActionListener/actions";
+import type { SetStateType, StateMode, ToolboxButton } from "./types";
+import type { FigureName } from "../../../types";
 
-type ModeName = "RECTANGLE" | "CIRCLE" | "POINT" | "BRUSH";
-export type SetStateType = (modeName: StateMode) => void;
+const ICON_SIZE_PX = "24";
 
-export interface ToolboxButton {
-  bindSelfListener: (setState: SetStateType) => void;
-}
-
-export interface ToolboxButtonFigure extends ToolboxButton {
-  readonly modeName: ModeName;
-}
-
-export interface StateMode {
-  modeName: ModeName;
-}
-
-export abstract class Button {
-  abstract modeName: ModeName;
+export class Button implements ToolboxButton {
+  constructor(readonly modeName: FigureName) {}
 
   bindSelfListener(setState: SetStateType) {
     console.log(this);
@@ -46,5 +35,13 @@ export abstract class Button {
         .add(Actions.mouseActions.click),
       excludeActionTypes: undefined,
     };
+  }
+
+  renderContent() {
+    return `
+      <svg viewBox="0 0 ${ICON_SIZE_PX} ${ICON_SIZE_PX}" height="${ICON_SIZE_PX}" width="${ICON_SIZE_PX}">
+        <use href="#svg_${getIdByModeName(this.modeName).toLowerCase()}" width="${ICON_SIZE_PX}" height="${ICON_SIZE_PX}"></use>
+      </svg>
+    `;
   }
 }

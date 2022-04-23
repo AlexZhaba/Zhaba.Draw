@@ -1,6 +1,6 @@
 import ClearableBaseFigure from "../ClearableBaseFigure";
 import type { AllActions, Position } from "../../../../ActionListener/actions";
-import { FigureName } from "../BaseFigure";
+import { FigureName } from "../../../../types";
 
 export default class Rectangle extends ClearableBaseFigure {
   static modeName = FigureName.RECTANGLE;

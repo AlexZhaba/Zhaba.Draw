@@ -1,7 +1,8 @@
 import type { CanvasSizeAction } from "../BottomBar/types";
 import ActionListener, { AllActions } from "../../ActionListener";
 import Drawer from "./Drawer";
-import BaseFigure, { FigureName } from "./figures/BaseFigure";
+import type BaseFigure from "./figures/BaseFigure";
+import { FigureName } from "../../types";
 import { mouseActions } from "../../ActionListener/actions";
 import Circle from "./figures/Circle";
 import figures from "./figures";
@@ -15,7 +16,7 @@ interface CanvasLayout {
   zoom: number;
 }
 
-export type ChangeCavnasLayout = {
+export type ChangeCanvasLayout = {
   [K in keyof CanvasLayout]?: CanvasLayout[K];
 };
 
@@ -92,7 +93,7 @@ export default class Canvas {
   onToolboxChanges(state: ToolboxState) {
     console.log(`toolbox`);
     console.log(state);
-    const figure = figures.find(fig => fig.modeName === FigureName[state.modeName]);
+    const figure = figures.find(fig => fig.modeName === state.modeName);
     if (!figure) {
       throw new Error(`Figure with ${state.modeName}`);
     }
@@ -103,7 +104,7 @@ export default class Canvas {
     }
   }
 
-  #setLayout(newLayout: ChangeCavnasLayout) {
+  #setLayout(newLayout: ChangeCanvasLayout) {
     console.log("Set layout");
     this.#layout = {
       ...this.#layout,
