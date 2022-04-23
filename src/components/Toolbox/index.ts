@@ -1,19 +1,20 @@
-// import buttons from "./buttons";
 import modeButtons from "./buttons/mode";
-import type { StateMode, ToolboxButton } from "./buttons/types";
-import { getIdByModeName } from "./helpers";
+import type {
+  NewToolboxState,
+  ToolboxButtonSetter,
+} from "./buttons/types";
 import type { ToolboxState } from "./types";
 import { FigureName } from "../../types";
 
 const initialState: ToolboxState = {
   modeName: FigureName.BRUSH,
-  // strokeStyle: "5px",
+  strokeStyle: "5px",
 };
 
 export default class Toolbox {
   #mount: HTMLElement;
   #state: ToolboxState = initialState;
-  #buttons: ToolboxButton[];
+  #buttons: ToolboxButtonSetter[];
   #changeStateObserver?: (state: ToolboxState) => void;
 
   constructor(mount: string) {
@@ -31,7 +32,7 @@ export default class Toolbox {
     let stringHTML = "";
     this.#buttons.forEach((button) => {
       stringHTML += `
-        <div class="toolbox__button ${this.#state.modeName === button.modeName && "toolbox__button--active"}" id="${getIdByModeName(button.modeName)}">
+        <div class="toolbox__button ${this.#state.modeName === button.value && "toolbox__button--active"}" id="${button.getId()}">
           ${button.renderContent()}
         </div>
       `;
@@ -40,11 +41,11 @@ export default class Toolbox {
 
     // re-binding
     this.#buttons.forEach((button) => {
-      button.bindSelfListener(this.#setState.bind(this));
+      button.init(this.#setState.bind(this));
     });
   }
 
-  #setState(newState: StateMode): void {
+  #setState(newState: NewToolboxState): void {
     console.log("setState");
     this.#state =  {
       ...this.#state,

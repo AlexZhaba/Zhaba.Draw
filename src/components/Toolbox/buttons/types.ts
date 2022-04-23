@@ -1,13 +1,21 @@
 import type { FigureName } from "../../../types";
+import type { ToolboxState } from "../types";
 
-export type SetStateType = (modeName: StateMode) => void;
+export type SetStateType = (data: NewToolboxState) => void;
+
+export type NewToolboxState = {
+  [K in keyof ToolboxState]?: ToolboxState[K];
+};
 
 export interface ToolboxButton {
-  bindSelfListener: (setState: SetStateType) => void;
-  readonly modeName: FigureName;
-  readonly renderContent: () => string;
+  renderContent: () => string;
+  getId: () => string;
 }
 
-export interface StateMode {
-  modeName: FigureName;
+export interface ToolboxButtonSetter extends ToolboxButton {
+  init: (setState: SetStateType) => void;
+  stateKey: keyof ToolboxState;
+  value: ToolboxState[keyof ToolboxState];
+  sendNewState: () => NewToolboxState;
 }
+

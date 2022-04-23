@@ -6,7 +6,8 @@
     "eofline": false,
     "quotemark": [true, "double"],
     "import-name": false,
-    "function-name": false
+    "function-name": false,
+    "max-line-length": [false, 160]
   },
   "rulesDirectory": []
 }
