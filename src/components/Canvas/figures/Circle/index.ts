@@ -19,6 +19,7 @@ export default class Circle extends ClearableBaseFigure {
       0, 0, Math.PI * 2,
     );
     this.context.stroke();
+    this.context.fill();
     this.context.closePath();
   }
 

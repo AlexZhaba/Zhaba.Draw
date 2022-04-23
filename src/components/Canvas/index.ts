@@ -100,7 +100,8 @@ export default class Canvas {
   #setStyleState(state: ToolboxState) {
     this.styleState = {
       ...this.styleState,
-      strokeStyle: state.strokeStyle,
+      strokeStyle: state.colorType === "fillOnly" ? "transparent" : state.strokeStyle,
+      fillStyle: state.colorType === "outlineOnly" ? "transparent" : state.fillStyle,
     };
     this.#drawer.getStyleState(this.styleState);
   }

@@ -2,18 +2,6 @@ type CSSStyles = {
   [K in keyof CSSStyleDeclaration]?: CSSStyleDeclaration[K];
 };
 
-// @mixin fade($type) {
-//   @if $type== "hide" {
-//     visibility: hidden;
-//     opacity: 0;
-//     transition: visibility 1s, opacity 1s;
-//   } @else if $type== "show" {
-//     visibility: visible;
-//     opacity: 1;
-//     transition: visibility 1s, opacity 1s;
-//   }
-// }
-
 export const initialMountStyles: CSSStyles = {
   position: "fixed",
   left: "0px",

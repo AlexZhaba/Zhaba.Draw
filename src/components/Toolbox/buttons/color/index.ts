@@ -1,8 +1,8 @@
-import StrokeStyleButton from "./StrokeStyleButton";
+import ColorButton from "./ColorButton";
 
 // parsed from https://www.color-hex.com/popular-colors.php
 const colorsValue = [
-  "#ff80ed",
+  "transparent",
   "#065535",
   "#000000",
   "#133337",
@@ -88,12 +88,12 @@ const colorsValue = [
   "#3399ff",
 ];
 
-const colorButton: StrokeStyleButton<"strokeStyle">[] = [];
+const colorButtons: ColorButton<"color">[] = [];
 
 colorsValue.slice(0, 10).forEach((colorValue) => {
-  colorButton.push(
-    new StrokeStyleButton("strokeStyle", colorValue),
+  colorButtons.push(
+    new ColorButton("color", colorValue),
   );
 });
 
-export default colorButton;
+export default colorButtons;

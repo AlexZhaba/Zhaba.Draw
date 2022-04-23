@@ -20,8 +20,10 @@ export interface ConnectedObject {
 
 export interface StyleState {
   strokeStyle: string;
+  fillStyle: string;
 }
 
 export const mockedStyleState: StyleState = {
   strokeStyle: "red",
+  fillStyle: "red",
 };

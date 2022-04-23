@@ -1,5 +1,6 @@
 import modeButtons from "./buttons/mode";
-import colorButton from "./buttons/strokeStyle";
+import colorButtons from "./buttons/color";
+import colorTypeButtons from "./buttons/colorType";
 import type {
   NewToolboxState,
   ToolboxButtonSetter,
@@ -9,7 +10,10 @@ import { FigureName } from "../../types";
 
 const initialState: ToolboxState = {
   modeName: FigureName.BRUSH,
-  strokeStyle: "#ff0000",
+  color: "#ff0000",
+  colorType: "outlineOnly",
+  strokeStyle: "#000",
+  fillStyle: "#000",
 };
 
 export default class Toolbox {
@@ -52,17 +56,39 @@ export default class Toolbox {
       ...this.#state,
       ...newState,
     };
-    console.log(newState, this.#state);
+    this.#extraChangeState(newState);
     if (this.#changeStateObserver) {
       console.log("CHANGE STATE");
       this.#changeStateObserver(this.#state);
     }
     this.#render();
   }
+  // Для strokeWidth и strokeHeight при смене color
+  #extraChangeState(newState: NewToolboxState) {
+    if (!newState.color) return;
+    switch (this.#state.colorType) {
+      case "fillOnly": {
+        this.#state.fillStyle = newState.color;
+        break;
+      }
+      case "outlineOnly": {
+        this.#state.strokeStyle = newState.color;
+        break;
+      }
+      case "outlineFill": {
+        this.#state.strokeStyle = newState.color;
+        this.#state.fillStyle = newState.color;
+        break;
+      }
+      default: {
+        throw new Error(`Don't know what is ${this.#state.colorType}`);
+      }
+    }
+  }
 
   #getToolboxState() {
     // Получаем экземпляры кнопок
-    [...modeButtons, ...colorButton].forEach((button) => {
+    [...modeButtons, ...colorButtons, ...colorTypeButtons].forEach((button) => {
       this.#buttons.push(button);
     });
   }

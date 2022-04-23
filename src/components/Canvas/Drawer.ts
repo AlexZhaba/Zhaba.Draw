@@ -32,7 +32,6 @@ export default class Drawer<T extends Constructor<BaseFigure>> {
           this.#figure.clearAll();
         }
       } else {
-        console.log(this.#styleState, isSyncAction);
         this.#figure.draw(action, this.#styleState);
       }
     } else if (this.#figure.checkForStart(action)) {
@@ -48,7 +47,6 @@ export default class Drawer<T extends Constructor<BaseFigure>> {
 
   getStyleState(newStyleState: StyleState) {
     this.#styleState = newStyleState;
-    console.log(this.#styleState, this.#syncDrawer);
     this.#syncDrawer?.getStyleState(this.#styleState);
   }
 }

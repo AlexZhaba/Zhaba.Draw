@@ -12,7 +12,7 @@ export default abstract class BaseFigure {
   protected abstract paintFigure(action: AllActions): void;
 
   abstract beforeStartDraw(position: Position): void;
-  abstract onStopAction(action: AllActions, styleState: StyleState): void;
+  abstract onStopAction(action: AllActions, styleState?: StyleState): void;
 
   draw(action: AllActions, styleState: StyleState) {
     this.setStyle(styleState);
@@ -34,6 +34,7 @@ export default abstract class BaseFigure {
 
   setStyle(style: StyleState) {
     this.context.strokeStyle = style.strokeStyle;
+    this.context.fillStyle = style.fillStyle;
   }
 
   abstract getTransferActions(): Set<keyof typeof mouseActions>;

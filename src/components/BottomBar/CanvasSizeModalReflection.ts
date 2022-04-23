@@ -1,5 +1,4 @@
 import type { Reflection } from "../Modal/types";
-import type { AllActions } from "../../ActionListener";
 import type { CanvasSize } from "./types";
 
 type ResolveType<T> = (value: T | PromiseLike<T>) => void;
