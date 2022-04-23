@@ -1,11 +1,11 @@
-import ButtonClickSetter from "../ButtonClickSetter";
+import ModeButton from "./ModeButton";
 import { FigureName } from "../../../../types";
 
 function modeFabric(name: FigureName) {
-  return new ButtonClickSetter("modeName", name);
+  return new ModeButton("modeName", name);
 }
 
-const modeButtons: ButtonClickSetter<"modeName">[] = [];
+const modeButtons: ModeButton<"modeName">[] = [];
 
 for (const keyName in FigureName) {
   modeButtons.push(modeFabric(

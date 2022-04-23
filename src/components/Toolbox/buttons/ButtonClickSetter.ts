@@ -5,10 +5,7 @@ import { getIdByModeName } from "../helpers";
 import type { ToolboxState } from "../types";
 import type { SetStateType } from "./types";
 
-const ICON_SIZE_PX = "24";
-
-export default class ButtonClickSetter<StateKeyType extends keyof ToolboxState> extends ButtonSetter<StateKeyType> {
-
+export default abstract class ButtonClickSetter<StateKeyType extends keyof ToolboxState> extends ButtonSetter<StateKeyType> {
   getId() {
     return getIdByModeName(this.value);
   }
@@ -33,13 +30,5 @@ export default class ButtonClickSetter<StateKeyType extends keyof ToolboxState> 
         .add(Actions.mouseActions.click),
       excludeActionTypes: undefined,
     };
-  }
-
-  renderContent() {
-    return `
-      <svg viewBox="0 0 ${ICON_SIZE_PX} ${ICON_SIZE_PX}" height="${ICON_SIZE_PX}" width="${ICON_SIZE_PX}">
-        <use href="#svg_${getIdByModeName(this.value).toLowerCase()}" width="${ICON_SIZE_PX}" height="${ICON_SIZE_PX}"></use>
-      </svg>
-    `;
   }
 }
