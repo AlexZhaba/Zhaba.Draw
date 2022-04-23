@@ -1,4 +1,5 @@
 import modeButtons from "./buttons/mode";
+import colorButton from "./buttons/strokeStyle";
 import type {
   NewToolboxState,
   ToolboxButtonSetter,
@@ -8,7 +9,7 @@ import { FigureName } from "../../types";
 
 const initialState: ToolboxState = {
   modeName: FigureName.BRUSH,
-  strokeStyle: "5px",
+  strokeStyle: "#ff0000",
 };
 
 export default class Toolbox {
@@ -32,7 +33,7 @@ export default class Toolbox {
     let stringHTML = "";
     this.#buttons.forEach((button) => {
       stringHTML += `
-        <div class="toolbox__button ${this.#state.modeName === button.value && "toolbox__button--active"}" id="${button.getId()}">
+        <div class="toolbox__button ${this.#state[button.stateKey] === button.value && "toolbox__button--active"}" id="${button.getId()}">
           ${button.renderContent()}
         </div>
       `;
@@ -61,7 +62,7 @@ export default class Toolbox {
 
   #getToolboxState() {
     // Получаем экземпляры кнопок
-    modeButtons.forEach((button) => {
+    [...modeButtons, ...colorButton].forEach((button) => {
       this.#buttons.push(button);
     });
   }

@@ -39,6 +39,7 @@ body, html {
 }
 
 #aside {
+  //overflow: auto;
   width: 100%;
   padding-top: 10px;
   background: beige;
@@ -63,6 +64,11 @@ body, html {
   &__button {
     background: #FFF;
     padding: 5px;
+    min-width: 40px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 3px;
     cursor: pointer;
     box-shadow: 0px 0px 2px 2px transparent;

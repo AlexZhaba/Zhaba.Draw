@@ -1,4 +1,3 @@
-import type { FigureName } from "../../../types";
 import type { ToolboxState } from "../types";
 
 export type SetStateType = (data: NewToolboxState) => void;
@@ -18,4 +17,3 @@ export interface ToolboxButtonSetter extends ToolboxButton {
   value: ToolboxState[keyof ToolboxState];
   sendNewState: () => NewToolboxState;
 }
-
