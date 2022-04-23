@@ -1,29 +1,18 @@
-import type { CanvasSizeAction } from "../BottomBar/types";
 import ActionListener, { AllActions } from "../../ActionListener";
 import Drawer from "./Drawer";
 import type BaseFigure from "./figures/BaseFigure";
-import { FigureName } from "../../types";
 import { mouseActions } from "../../ActionListener/actions";
 import Circle from "./figures/Circle";
 import figures from "./figures";
 import type { ToolboxState } from "../Toolbox/types";
-
-type Constructor<I = {}> = new (...args: any[]) => I;
-
-interface CanvasLayout {
-  width: number;
-  height: number;
-  zoom: number;
-}
-
-export type ChangeCanvasLayout = {
-  [K in keyof CanvasLayout]?: CanvasLayout[K];
-};
-
-interface ConnectedObject {
-  onGetAction: (action: AllActions | CanvasSizeAction) => void;
-  bindTriggerFunction: Function;
-}
+import {
+  CanvasLayout,
+  ChangeCanvasLayout,
+  ConnectedObject,
+  Constructor,
+  StyleState,
+  mockedStyleState,
+} from "./types";
 
 export default class Canvas {
   readonly #context: CanvasRenderingContext2D;
@@ -33,6 +22,7 @@ export default class Canvas {
   #syncContext: CanvasRenderingContext2D | null = null;
   #layout: CanvasLayout;
   #connector?: ConnectedObject;
+  styleState: StyleState = mockedStyleState;
 
   constructor(canvasEl: HTMLCanvasElement, id: string) {
     this.#context = <CanvasRenderingContext2D>canvasEl.getContext("2d");
@@ -93,15 +83,26 @@ export default class Canvas {
   onToolboxChanges(state: ToolboxState) {
     console.log(`toolbox`);
     console.log(state);
+    // modeName
     const figure = figures.find(fig => fig.modeName === state.modeName);
     if (!figure) {
       throw new Error(`Figure with ${state.modeName}`);
     }
-    console.log(figure);
     this.#drawer = new Drawer(figure, this.#context);
     if (this.#syncContext) {
       this.#drawer.transfer(new Drawer(figure, this.#syncContext));
     }
+
+    // styles
+    this.#setStyleState(state);
+  }
+
+  #setStyleState(state: ToolboxState) {
+    this.styleState = {
+      ...this.styleState,
+      strokeStyle: state.strokeStyle,
+    };
+    this.#drawer.getStyleState(this.styleState);
   }
 
   #setLayout(newLayout: ChangeCanvasLayout) {

@@ -1,5 +1,6 @@
 import BaseFigure from "./BaseFigure";
 import { AllActions, mouseActions } from "../../../ActionListener/actions";
+import type { StyleState } from "../types";
 
 export default abstract class ClearableBaseFigure extends BaseFigure {
   constructor(context: CanvasRenderingContext2D) {
@@ -14,12 +15,16 @@ export default abstract class ClearableBaseFigure extends BaseFigure {
     return mouseActions.mousedown;
   }
 
-  override draw(action: AllActions) {
+  override draw(action: AllActions, styleState: StyleState) {
     this.clearAll();
+    this.setStyle(styleState);
     this.paintFigure(action);
   }
 
-  onStopAction(action: AllActions) {
+  onStopAction(action: AllActions, styleState?: StyleState) {
+    if (styleState) {
+      this.setStyle(styleState);
+    }
     this.paintFigure(action);
   }
 

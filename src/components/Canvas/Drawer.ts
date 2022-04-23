@@ -1,5 +1,7 @@
 import type BaseFigure from "./figures/BaseFigure";
 import type { AllActions } from "../../ActionListener";
+import type { StyleState } from "./types";
+import { mockedStyleState } from "./types";
 
 // TODO: Переделать
 type Constructor<I> = new (...args: ConstructorParameters<typeof BaseFigure>) => I;
@@ -10,10 +12,10 @@ export default class Drawer<T extends Constructor<BaseFigure>> {
   readonly #figure: BaseFigure;
   #mode: modeType;
   #syncDrawer: Drawer<Constructor<BaseFigure>> | null = null;
+  #styleState: StyleState = mockedStyleState;
 
   constructor(figure: T, context: CanvasRenderingContext2D, mode?: modeType) {
     this.#figure = new figure(context);
-    console.log(this.#figure);
     this.#mode = mode || "inactive";
   }
 
@@ -21,17 +23,17 @@ export default class Drawer<T extends Constructor<BaseFigure>> {
     const isSyncAction =
       (this.#figure.getTransferActions().has(action.eventType)) && this.#syncDrawer;
     if (this.#mode === "active") {
-      // TODO: хз почему ? надо
       if (isSyncAction) this.#syncDrawer?.onGetAction(action);
       if (this.#figure.checkForStop(action)) {
         this.#mode = "inactive";
-        this.#figure.onStopAction(action);
+        this.#figure.onStopAction(action, this.#styleState);
         if (this.#syncDrawer) {
           console.log("CLEAR TEMPLATE");
           this.#figure.clearAll();
         }
       } else {
-        this.#figure.draw(action);
+        console.log(this.#styleState, isSyncAction);
+        this.#figure.draw(action, this.#styleState);
       }
     } else if (this.#figure.checkForStart(action)) {
       if (isSyncAction) this.#syncDrawer?.onGetAction(action);
@@ -42,5 +44,11 @@ export default class Drawer<T extends Constructor<BaseFigure>> {
 
   transfer(syncDrawer: Drawer<Constructor<BaseFigure>>) {
     this.#syncDrawer = syncDrawer;
+  }
+
+  getStyleState(newStyleState: StyleState) {
+    this.#styleState = newStyleState;
+    console.log(this.#styleState, this.#syncDrawer);
+    this.#syncDrawer?.getStyleState(this.#styleState);
   }
 }

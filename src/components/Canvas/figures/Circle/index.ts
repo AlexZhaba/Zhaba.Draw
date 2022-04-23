@@ -12,8 +12,6 @@ export default class Circle extends ClearableBaseFigure {
 
   paintFigure(action: AllActions) {
     this.context.beginPath();
-    this.context.lineWidth = 2;
-    this.context.strokeStyle = "rgba(0, 0, 0, 1)";
     const { position: { x, y } } = this.#startPosition;
     this.context.ellipse(
       (x + (action.position.x - x) / 2), (y + (action.position.y - y) / 2),

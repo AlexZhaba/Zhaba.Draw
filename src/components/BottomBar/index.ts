@@ -3,7 +3,7 @@ import { mouseActions } from "../../ActionListener/actions";
 import type { BottomBarState, CanvasSizeAction, CanvasSize } from "./types";
 import Modal from "../Modal";
 import CanvasSizeModalReflection from "./CanvasSizeModalReflection";
-import type { ChangeCanvasLayout } from "../Canvas";
+import type { ChangeCanvasLayout } from "../Canvas/types";
 
 const initialState: BottomBarState = {
   cursor_x: 0,

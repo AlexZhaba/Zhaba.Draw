@@ -11,7 +11,6 @@ export default abstract class ButtonClickSetter<StateKeyType extends keyof Toolb
   }
 
   init(setState: SetStateType) {
-    console.log(this);
     const mount = document.getElementById(this.getId());
     if (!mount) {
       throw new Error(`No mount for ${this.value}`);

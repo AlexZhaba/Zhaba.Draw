@@ -1,5 +1,6 @@
 import type { AllActions } from "../../../ActionListener";
 import type { mouseActions, Position } from "../../../ActionListener/actions";
+import type { StyleState } from "../types";
 
 export default abstract class BaseFigure {
   protected context: CanvasRenderingContext2D;
@@ -11,9 +12,10 @@ export default abstract class BaseFigure {
   protected abstract paintFigure(action: AllActions): void;
 
   abstract beforeStartDraw(position: Position): void;
-  abstract onStopAction(action: AllActions): void;
+  abstract onStopAction(action: AllActions, styleState: StyleState): void;
 
-  draw(action: AllActions) {
+  draw(action: AllActions, styleState: StyleState) {
+    this.setStyle(styleState);
     this.paintFigure(action);
   }
 
@@ -28,6 +30,10 @@ export default abstract class BaseFigure {
   clearAll() {
     // TODO: Забайндить на Canvas.layout
     this.context.clearRect(0, 0, 4000, 4000);
+  }
+
+  setStyle(style: StyleState) {
+    this.context.strokeStyle = style.strokeStyle;
   }
 
   abstract getTransferActions(): Set<keyof typeof mouseActions>;

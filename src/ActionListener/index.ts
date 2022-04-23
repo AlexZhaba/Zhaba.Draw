@@ -27,7 +27,6 @@ export default class ActionListener {
     fn: (action: Actions.AllActions) => void,
     options?: OptionsType,
   ) {
-    console.log(options);
     for (const mouseEvent in Actions.mouseActions) {
       if (options) {
         if (
