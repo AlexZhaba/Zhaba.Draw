@@ -50,7 +50,7 @@ body, html {
   left: 0;
   right: 0;
   display: flex;
-  gap: 15px;
+  gap: 30px;
   align-items: flex-start;
   z-index: 2;
 
@@ -61,11 +61,18 @@ body, html {
 
 .toolbox {
 
+  &__group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    max-width: 300px;
+  }
+
   &__button {
     background: #FFF;
     padding: 5px;
-    min-width: 40px;
-    min-height: 40px;
+    min-width: 34px;
+    min-height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;

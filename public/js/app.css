@@ -13,6 +13,7 @@
 
 body, html {
   background: beige;
+  font-family: "Roboto Mono";
 }
 
 .wrapper {
@@ -38,6 +39,7 @@ body, html {
 }
 
 #aside {
+  overflow: auto;
   width: 100%;
   padding-top: 10px;
   background: beige;
@@ -59,6 +61,11 @@ body, html {
 .toolbox__button {
   background: #FFF;
   padding: 5px;
+  min-width: 40px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 3px;
   cursor: pointer;
   box-shadow: 0px 0px 2px 2px transparent;
@@ -91,8 +98,8 @@ body, html {
   padding: 0 20px;
   display: flex;
   align-items: center;
-  font-family: "Roboto Mono";
   gap: 20px;
+  user-select: none;
 }
 #bottom-bar__size, #bottom-bar__cursor {
   display: flex;
@@ -111,6 +118,47 @@ body, html {
   transition: 0.2s all;
 }
 #bottom-bar__size:active {
+  background: #bbb;
+}
+
+#modal-root {
+  visibility: hidden;
+  position: fixed;
+}
+
+.modal-root__close {
+  transform: translate(5px, 33px);
+  width: 24px;
+  cursor: pointer;
+}
+
+.window-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+}
+
+.custom-input {
+  outline: none;
+  padding: 10px;
+  font-size: 20px;
+  margin-bottom: 20px;
+  margin-top: 5px;
+}
+
+.custom-button {
+  height: 40px;
+  border: none;
+  font-size: 17px;
+  cursor: pointer;
+  transition: 0.2s all;
+  border-radius: 5px;
+}
+.custom-button:hover {
+  background: #ddd;
+  transition: 0.2s all;
+}
+.custom-button:active {
   background: #bbb;
 }
 

@@ -11,7 +11,7 @@ export default class ColorButton<StateKeyType extends keyof ToolboxState> extend
       `;
     }
     return `
-      <div style="background: ${this.value}; width: 30px; height: 30px; border-radius: 50%">
+      <div style="background: ${this.value}; width: 24px; height: 24px; border-radius: 50%">
       </div>
     `;
   }

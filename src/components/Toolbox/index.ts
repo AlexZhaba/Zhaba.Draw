@@ -19,7 +19,7 @@ const initialState: ToolboxState = {
 export default class Toolbox {
   #mount: HTMLElement;
   #state: ToolboxState = initialState;
-  #buttons: ToolboxButtonSetter[];
+  #buttons: ToolboxButtonSetter[][];
   #changeStateObserver?: (state: ToolboxState) => void;
 
   constructor(mount: string) {
@@ -35,19 +35,27 @@ export default class Toolbox {
 
   #render() {
     let stringHTML = "";
-    this.#buttons.forEach((button) => {
+    this.#buttons.forEach((group) => {
+      let groupHTML = "";
+      group.forEach((button) => {
+        groupHTML += `
+          <div class="toolbox__button ${this.#state[button.stateKey] === button.value && "toolbox__button--active"}" id="${button.getId()}">
+            ${button.renderContent()}
+          </div>
+        `;
+      });
       stringHTML += `
-        <div class="toolbox__button ${this.#state[button.stateKey] === button.value && "toolbox__button--active"}" id="${button.getId()}">
-          ${button.renderContent()}
+        <div class="toolbox__group">
+          ${groupHTML}
         </div>
       `;
     });
     this.#mount.innerHTML = stringHTML;
 
     // re-binding
-    this.#buttons.forEach((button) => {
+    this.#buttons.forEach(group => group.forEach((button) => {
       button.init(this.#setState.bind(this));
-    });
+    }));
   }
 
   #setState(newState: NewToolboxState): void {
@@ -87,10 +95,16 @@ export default class Toolbox {
   }
 
   #getToolboxState() {
-    // Получаем экземпляры кнопок
-    [...modeButtons, ...colorButtons, ...colorTypeButtons].forEach((button) => {
-      this.#buttons.push(button);
-    });
+    // Получаем экземпляры кнопок и разбиваем по группам
+    // [...modeButtons, ...colorButtons, ...colorTypeButtons].forEach((button) => {
+    //   this.#buttons.push(button);
+    // });
+    const figureGroup = [...modeButtons];
+    const modificatorsGroup = [...colorButtons];
+    const colorTypesGroup = [...colorTypeButtons];
+    this.#buttons.push(figureGroup);
+    this.#buttons.push(modificatorsGroup);
+    this.#buttons.push(colorTypeButtons);
   }
 
   observeStateChanges(fn: (state: ToolboxState) => void) {
