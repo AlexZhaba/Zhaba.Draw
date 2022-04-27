@@ -1,9 +1,12 @@
+import { isButtonSetter } from './helpers/index';
 import modeButtons from "./buttons/mode";
 import colorButtons from "./buttons/color";
+import ColorCircle from "./buttons/colorCircle";
 import colorTypeButtons from "./buttons/colorType";
 import type {
   NewToolboxState,
   ToolboxButtonSetter,
+  ToolboxButtonGetter,
 } from "./buttons/types";
 import type { ToolboxState } from "./types";
 import { FigureName } from "../../types";
@@ -19,8 +22,8 @@ const initialState: ToolboxState = {
 export default class Toolbox {
   #mount: HTMLElement;
   #state: ToolboxState = initialState;
-  #buttons: ToolboxButtonSetter[][];
-  #changeStateObserver?: (state: ToolboxState) => void;
+  #buttons: (ToolboxButtonSetter | ToolboxButtonGetter)[][];
+  #changeStateObservers: Array<(state: ToolboxState) => void> = [];
 
   constructor(mount: string) {
     const el = document.getElementById(mount);
@@ -38,11 +41,17 @@ export default class Toolbox {
     this.#buttons.forEach((group) => {
       let groupHTML = "";
       group.forEach((button) => {
-        groupHTML += `
-          <div class="toolbox__button ${this.#state[button.stateKey] === button.value && "toolbox__button--active"}" id="${button.getId()}">
-            ${button.renderContent()}
-          </div>
-        `;
+        if (isButtonSetter(button)) {
+          groupHTML += `
+            <div class="toolbox__button ${this.#state[button.stateKey] === button.value ? "toolbox__button--active" : ""}"
+            id="${button.getId()}">
+              ${button.renderContent()}
+            </div>
+          `;
+        } else {
+          groupHTML += `
+          ${button.renderContent()}`
+        }
       });
       stringHTML += `
         <div class="toolbox__group">
@@ -54,7 +63,11 @@ export default class Toolbox {
 
     // re-binding
     this.#buttons.forEach(group => group.forEach((button) => {
-      button.init(this.#setState.bind(this));
+      if (isButtonSetter(button)) {
+        button.init(this.#setState.bind(this));
+      } else {
+        this.#changeStateObservers.push(() => button.onChangeState(this.#state));
+      }
     }));
   }
 
@@ -65,10 +78,8 @@ export default class Toolbox {
       ...newState,
     };
     this.#extraChangeState(newState);
-    if (this.#changeStateObserver) {
-      console.log("CHANGE STATE");
-      this.#changeStateObserver(this.#state);
-    }
+    console.log("CHANGE STATE");
+    this.#changeStateObservers.forEach(fn => fn(this.#state));
     this.#render();
   }
   // Для strokeWidth и strokeHeight при смене color
@@ -96,19 +107,16 @@ export default class Toolbox {
 
   #getToolboxState() {
     // Получаем экземпляры кнопок и разбиваем по группам
-    // [...modeButtons, ...colorButtons, ...colorTypeButtons].forEach((button) => {
-    //   this.#buttons.push(button);
-    // });
     const figureGroup = [...modeButtons];
-    const modificatorsGroup = [...colorButtons];
+    const modificatorsGroup = [new ColorCircle(), ...colorButtons];
     const colorTypesGroup = [...colorTypeButtons];
     this.#buttons.push(figureGroup);
     this.#buttons.push(modificatorsGroup);
-    this.#buttons.push(colorTypeButtons);
+    this.#buttons.push(colorTypesGroup);
   }
 
   observeStateChanges(fn: (state: ToolboxState) => void) {
-    this.#changeStateObserver = fn;
+    this.#changeStateObservers.push(fn);
     // get initialState for canvas
     this.#setState(initialState);
   }

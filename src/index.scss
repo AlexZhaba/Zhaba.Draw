@@ -62,10 +62,11 @@ body, html {
 .toolbox {
 
   &__group {
-    display: flex;
+    display: grid;
+    grid-auto-flow: column;  
+    grid-auto-columns: 35px;
+    grid-template-rows: 35px 35px;
     gap: 10px;
-    flex-wrap: wrap;
-    max-width: 300px;
   }
 
   &__button {
