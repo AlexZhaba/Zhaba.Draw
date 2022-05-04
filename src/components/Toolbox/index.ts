@@ -1,7 +1,8 @@
-import { isButtonSetter } from './helpers/index';
+import { isButtonSetter } from "./helpers/index";
 import modeButtons from "./buttons/mode";
 import colorButtons from "./buttons/color";
 import ColorCircle from "./buttons/colorCircle";
+import LineWidthButton from "./buttons/lineWidth";
 import colorTypeButtons from "./buttons/colorType";
 import type {
   NewToolboxState,
@@ -17,6 +18,7 @@ const initialState: ToolboxState = {
   colorType: "outlineOnly",
   strokeStyle: "#000",
   fillStyle: "#000",
+  lineWidth: 25,
 };
 
 export default class Toolbox {
@@ -42,15 +44,20 @@ export default class Toolbox {
       let groupHTML = "";
       group.forEach((button) => {
         if (isButtonSetter(button)) {
+          // groupHTML += `
+          //   <div class="toolbox__button ${this.#state[button.stateKey] === button.value ? "toolbox__button--active" : ""}"
+          //   id="${button.getId()}">
+          //     ${button.renderContent()}
+          //   </div>
+          // `;
           groupHTML += `
-            <div class="toolbox__button ${this.#state[button.stateKey] === button.value ? "toolbox__button--active" : ""}"
-            id="${button.getId()}">
-              ${button.renderContent()}
-            </div>
-          `;
+          ${button.render({
+            isActive: this.#state[button.stateKey] === button.value,
+          })}`;
         } else {
           groupHTML += `
-          ${button.renderContent()}`
+            ${button.render()}
+          `;
         }
       });
       stringHTML += `
@@ -108,7 +115,7 @@ export default class Toolbox {
   #getToolboxState() {
     // Получаем экземпляры кнопок и разбиваем по группам
     const figureGroup = [...modeButtons];
-    const modificatorsGroup = [new ColorCircle(), ...colorButtons];
+    const modificatorsGroup = [new ColorCircle(), ...colorButtons, new LineWidthButton("lineWidth", this.#state.lineWidth)];
     const colorTypesGroup = [...colorTypeButtons];
     this.#buttons.push(figureGroup);
     this.#buttons.push(modificatorsGroup);

@@ -1,5 +1,5 @@
 import type { NewToolboxState, SetStateType, ToolboxButtonSetter } from "./types";
-import type { ToolboxState } from "../types";
+import type { ToolboxState, RenderExtraData } from "../types";
 
 export abstract class ButtonSetter
   <StateKeyType extends keyof ToolboxState>
@@ -7,12 +7,27 @@ export abstract class ButtonSetter
 
   constructor(
     readonly stateKey: StateKeyType,
-    readonly value: ToolboxState[StateKeyType],
+    public value: ToolboxState[StateKeyType],
   ) {}
 
   abstract getId(): string;
   abstract init(setState: SetStateType): void;
-  abstract renderContent(): string;
+  abstract renderContent(extraData?: RenderExtraData): string;
+
+  renderContainer(innerContent: string, extraData?: RenderExtraData) {
+    return `
+      <div
+        class="toolbox__button ${extraData?.isActive ? "toolbox__button--active" : ""}"
+        id="${this.getId()}"
+      >
+        ${innerContent}
+      </div>
+    `;
+  }
+
+  render(extraData?: RenderExtraData) {
+    return this.renderContainer(this.renderContent(extraData), extraData);
+  }
 
   sendNewState(): NewToolboxState {
     return {

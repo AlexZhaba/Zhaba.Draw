@@ -12,7 +12,7 @@ export default class ColorCircle implements ToolboxButtonGetter {
     this.#fillStyle = state.fillStyle;
     this.#strokeStyle = state.strokeStyle;
   }
-  renderContent() {
+  render() {
     return `
       <div style="grid-column: 1 / span 2; grid-row: 1 / span 2; display: flex; justify-content: center; align-items: center;">
         <div style="width: 50px; height: 50px; border-radius: 50%; background: ${this.#fillStyle}; border: 5px solid ${this.#strokeStyle}">

@@ -7,7 +7,7 @@ import type { SetStateType } from "./types";
 
 export default abstract class ButtonClickSetter<StateKeyType extends keyof ToolboxState> extends ButtonSetter<StateKeyType> {
   getId() {
-    return getIdByModeName(this.value);
+    return getIdByModeName(String(this.value));
   }
 
   init(setState: SetStateType) {

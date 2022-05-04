@@ -1,4 +1,4 @@
-import type { ToolboxState } from "../types";
+import type { ToolboxState, RenderExtraData } from "../types";
 
 export type SetStateType = (data: NewToolboxState) => void;
 
@@ -7,7 +7,7 @@ export type NewToolboxState = {
 };
 
 export interface ToolboxButton {
-  renderContent: () => string;
+  render: (extraData?: RenderExtraData) => string;
   getId: () => string;
 }
 

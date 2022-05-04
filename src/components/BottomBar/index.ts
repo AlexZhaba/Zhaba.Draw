@@ -47,7 +47,6 @@ export default class BottomBar {
   }
 
   #render() {
-    console.log("render");
     const htmlSize = document.getElementById(`${this.#mountId}__size--value`);
     if (!htmlSize) {
       throw new Error(`${this.#mountId}__size doesn't exist`);

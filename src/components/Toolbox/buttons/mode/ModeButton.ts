@@ -8,7 +8,7 @@ export default class ModeButton<StateKeyType extends keyof ToolboxState> extends
   renderContent() {
     return `
       <svg viewBox="0 0 ${ICON_SIZE_PX} ${ICON_SIZE_PX}" height="${ICON_SIZE_PX}" width="${ICON_SIZE_PX}">
-        <use href="#svg_${getIdByModeName(this.value).toLowerCase()}" width="${ICON_SIZE_PX}" height="${ICON_SIZE_PX}"></use>
+        <use href="#svg_${getIdByModeName(String(this.value)).toLowerCase()}" width="${ICON_SIZE_PX}" height="${ICON_SIZE_PX}"></use>
       </svg>
     `;
   }
