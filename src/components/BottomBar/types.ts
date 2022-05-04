@@ -5,6 +5,7 @@ export interface CanvasSize {
 export interface BottomBarState extends CanvasSize {
   cursor_x: number;
   cursor_y: number;
+  zoom: number;
 }
 
 export interface CanvasSizeAction extends CanvasSize {

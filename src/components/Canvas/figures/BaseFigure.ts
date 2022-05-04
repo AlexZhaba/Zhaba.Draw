@@ -6,6 +6,9 @@ export default abstract class BaseFigure {
   protected context: CanvasRenderingContext2D;
   constructor(context: CanvasRenderingContext2D) {
     this.context = context;
+
+    // @ts-ignore
+    window.context = context;
   }
   protected abstract getStopAction(): keyof typeof mouseActions;
   protected abstract getStartAction(): keyof typeof mouseActions;
@@ -35,7 +38,6 @@ export default abstract class BaseFigure {
   setStyle(style: StyleState) {
     this.context.strokeStyle = style.strokeStyle;
     this.context.fillStyle = style.fillStyle;
-    console.log(style.lineWidth);
     this.context.lineWidth = style.lineWidth;
   }
 

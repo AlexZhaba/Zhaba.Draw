@@ -10,7 +10,10 @@ const initialState: BottomBarState = {
   cursor_y: 0,
   canvas_height: 0,
   canvas_width: 0,
+  zoom: 100,
 };
+
+const zoomValue = [10, 25, 50, 75, 100, 125, 150, 175, 200, 300, 500];
 
 export default class BottomBar {
   #mount: HTMLElement;
@@ -47,6 +50,7 @@ export default class BottomBar {
   }
 
   #render() {
+    // size
     const htmlSize = document.getElementById(`${this.#mountId}__size--value`);
     if (!htmlSize) {
       throw new Error(`${this.#mountId}__size doesn't exist`);
@@ -55,19 +59,39 @@ export default class BottomBar {
       htmlSize.innerHTML = `${this.#state.canvas_width}x${this.#state.canvas_height}`;
     }
 
+    // position
     const htmlPosition = document.getElementById(`${this.#mountId}__cursor--value`);
     if (!htmlPosition) {
       throw new Error(`${this.#mountId}__size--value doesn't exist`);
     }
-    if (htmlPosition.innerHTML !== `${this.#state.cursor_x}x${this.#state.cursor_y}`) {
+    if (htmlPosition.innerHTML !== `${this.#state.cursor_x.toFixed(0)}x${this.#state.cursor_y.toFixed(0)}`) {
       if (
         this.#state.cursor_x < 0 || this.#state.cursor_x > this.#state.canvas_width ||
         this.#state.cursor_y < 0 || this.#state.cursor_y > this.#state.canvas_height
       ) {
         htmlPosition.innerHTML = "";
       } else {
-        htmlPosition.innerHTML = `${this.#state.cursor_x}x${this.#state.cursor_y}`;
+        htmlPosition.innerHTML = `${this.#state.cursor_x.toFixed(0)}x${this.#state.cursor_y.toFixed(0)}`;
       }
+    }
+
+    // zoom
+    const htmlZoom = document.getElementById(`${this.#mountId}__zoom--value`);
+    if (!htmlZoom) {
+      throw new Error(`${this.#mountId}__size--zoom doesn't exist`);
+    }
+
+    if (htmlZoom.dataset.value !== String(this.#state.zoom)) {
+      console.log("zoom render");
+      console.log(htmlZoom.dataset.value, this.#state.zoom);
+      htmlZoom.dataset.value = String(this.#state.zoom);
+      htmlZoom.innerHTML = `
+        <select>
+          ${zoomValue.map(value => (
+            `<option${value === this.#state.zoom ? " selected" : ""} value="${value}">${value}%</option>`
+          ))}
+        </select>
+      `;
     }
 
     if (this.#isBind) return;
@@ -75,9 +99,20 @@ export default class BottomBar {
     if (!htmlSizeWithImage) {
       throw new Error(`${this.#mountId}__size doesn't exist`);
     }
+    // bind-size
     new ActionListener(htmlSizeWithImage).bindTriggerFunction(this.onClickCanvasSize.bind(this), {
       includeActionTypes: new Set<keyof typeof mouseActions>().add(mouseActions.click),
     });
+
+    // bind-zoom
+    // TODO: remove any
+    function changeZoom(this: BottomBar, event: any) {
+      if (!this.#trigger) return;
+      this.#trigger({
+        zoom: Number(event.target.value) / 100,
+      });
+    }
+    htmlZoom.children[0].addEventListener("change", changeZoom.bind(this));
     this.#isBind = true;
   }
 

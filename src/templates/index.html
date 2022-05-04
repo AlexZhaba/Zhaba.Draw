@@ -21,17 +21,27 @@
     </canvas>
 
     <div id="bottom-bar">
-      <div id="bottom-bar__size">
-        <svg viewBox="0 0 24 24" width="24" height="24">
-          <use href="#svg_picture"></use>
-        </svg>
-        <span id="bottom-bar__size--value"></span>
+      <div class="bottom-bar__container">
+        <div id="bottom-bar__size">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <use href="#svg_picture"></use>
+          </svg>
+          <span id="bottom-bar__size--value"></span>
+        </div>
+        <div id="bottom-bar__cursor">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+              <use href="#svg_position"></use>
+          </svg>
+          <span id="bottom-bar__cursor--value"></span>
+        </div>
       </div>
-      <div id="bottom-bar__cursor">
-        <svg viewBox="0 0 24 24" width="24" height="24">
-            <use href="#svg_position"></use>
-        </svg>
-        <span id="bottom-bar__cursor--value"></span>
+      <div class="bottom-bar__container">
+        <div id="bottom-bar__zoom">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <use href="#svg_zoom"></use>
+          </svg>
+          <span id="bottom-bar__zoom--value"></span>
+        </div>
       </div>
     </div>
     <div id="modal-root">
@@ -69,6 +79,9 @@
       </symbol>
       <symbol id="svg_close" height="24" width="24" viewBox="0 0 24 24">
         <path d="M6.4 19 5 17.6 10.6 12 5 6.4 6.4 5 12 10.6 17.6 5 19 6.4 13.4 12 19 17.6 17.6 19 12 13.4Z"/>
+      </symbol>
+      <symbol id="svg_zoom" height="24" width="24" viewBox="0 0 24 25">
+        <path d="M19.6 21 13.3 14.7Q12.55 15.3 11.575 15.65Q10.6 16 9.5 16Q6.775 16 4.888 14.113Q3 12.225 3 9.5Q3 6.775 4.888 4.887Q6.775 3 9.5 3Q12.225 3 14.113 4.887Q16 6.775 16 9.5Q16 10.6 15.65 11.575Q15.3 12.55 14.7 13.3L21 19.6ZM9.5 14Q11.375 14 12.688 12.688Q14 11.375 14 9.5Q14 7.625 12.688 6.312Q11.375 5 9.5 5Q7.625 5 6.312 6.312Q5 7.625 5 9.5Q5 11.375 6.312 12.688Q7.625 14 9.5 14Z"/>
       </symbol>
     </svg>
   </div>

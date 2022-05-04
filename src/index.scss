@@ -63,7 +63,7 @@ body, html {
 
   &__group {
     display: grid;
-    grid-auto-flow: column;  
+    grid-auto-flow: column;
     grid-auto-columns: 35px;
     grid-template-rows: 35px 35px;
     gap: 10px;
@@ -114,6 +114,7 @@ body, html {
   padding: 0 20px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 20px;
   user-select: none;
 
@@ -129,6 +130,7 @@ body, html {
   &__size {
     transition: .2s all;
     cursor: pointer;
+
     &:hover {
       background: #ddd;
       transition: .2s all;
@@ -138,6 +140,20 @@ body, html {
       background: #bbb;
     }
   }
+  &__zoom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    & select {
+      font-size: 16px;
+    }
+  }
+}
+
+.bottom-bar__container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 #modal-root {
@@ -186,7 +202,7 @@ body, html {
 
 .custom-select {
   gap: 5px;
-  grid-column: span 2; 
+  grid-column: span 2;
   grid-row: 1 / span 2;
   display: flex;
   justify-content: center;
@@ -198,3 +214,4 @@ body, html {
     width: 50px;
   }
 }
+

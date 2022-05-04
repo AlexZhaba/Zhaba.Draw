@@ -53,11 +53,14 @@ export default class Canvas {
   }
 
   onAction(action: AllActions) {
+    const newAction = { ...action };
+    newAction.position.x *= this.#layout.zoom;
+    newAction.position.y *= this.#layout.zoom;
     if (this.#drawer) {
-      this.#drawer.onGetAction(action);
+      this.#drawer.onGetAction(newAction);
     }
     if (this.#connector) {
-      this.#connector.onGetAction(action);
+      this.#connector.onGetAction(newAction);
     }
   }
 
@@ -121,10 +124,21 @@ export default class Canvas {
 
   #showLayout(canvasEl: HTMLCanvasElement) {
     const { width, height, zoom } = this.#layout;
-    canvasEl.setAttribute("width", `${width}px`);
-    canvasEl.setAttribute("height", `${height}px`);
-    canvasEl.style.width = `${width}px`;
-    canvasEl.style.height = `${height}px`;
+    const curWidth = canvasEl.getAttribute("width");
+    const curHeight = canvasEl.getAttribute("height");
+    let currentCanvasImage: ImageData | null = null;
+    if (this.#syncCanvasEl && this.#syncContext) {
+      // save current canvas layout because when change attribute `width` and `height` canvas clear
+      currentCanvasImage = this.#syncContext.getImageData(0, 0, this.#syncCanvasEl.width, this.#syncCanvasEl.height);
+    }
+    if (`${width}px` !== curWidth) canvasEl.setAttribute("width", `${width}px`);
+    if (`${height}px` !== curHeight)  canvasEl.setAttribute("height", `${height}px`);
+    canvasEl.style.width = `${width / zoom}px`;
+    canvasEl.style.height = `${height / zoom}px`;
+
+    if (this.#syncCanvasEl && this.#syncContext && currentCanvasImage) {
+      this.#syncContext.putImageData(currentCanvasImage, 0, 0);
+    }
     if (this.#connector) {
       this.#connector.onGetAction({
         eventType: "CANVAS_SIZE",
