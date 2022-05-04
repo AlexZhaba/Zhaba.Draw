@@ -40,6 +40,7 @@ export default class BottomBar {
     if (action.eventType === "CANVAS_SIZE") {
       this.#state.canvas_width = action.canvas_width;
       this.#state.canvas_height = action.canvas_height;
+      this.#state.zoom = Number((action.zoom * 100).toFixed(0));
       this.#render();
     }
   }
@@ -85,13 +86,27 @@ export default class BottomBar {
       console.log("zoom render");
       console.log(htmlZoom.dataset.value, this.#state.zoom);
       htmlZoom.dataset.value = String(this.#state.zoom);
+      const additionalZoom = [];
+      if (!(zoomValue.find(val => val === this.#state.zoom))) {
+        additionalZoom.push(this.#state.zoom);
+      }
       htmlZoom.innerHTML = `
         <select>
-          ${zoomValue.map(value => (
+          ${[...zoomValue, ...additionalZoom].sort((a: number, b: number) => a - b).map(value => (
             `<option${value === this.#state.zoom ? " selected" : ""} value="${value}">${value}%</option>`
           ))}
         </select>
       `;
+      // bind-zoom
+      // TODO: remove any
+      function changeZoom(this: BottomBar, event: any) {
+        console.log("LOL");
+        if (!this.#trigger) return;
+        this.#trigger({
+          zoom: Number(event.target.value) / 100,
+        });
+      }
+      htmlZoom.children[0].addEventListener("change", changeZoom.bind(this));
     }
 
     if (this.#isBind) return;
@@ -104,15 +119,6 @@ export default class BottomBar {
       includeActionTypes: new Set<keyof typeof mouseActions>().add(mouseActions.click),
     });
 
-    // bind-zoom
-    // TODO: remove any
-    function changeZoom(this: BottomBar, event: any) {
-      if (!this.#trigger) return;
-      this.#trigger({
-        zoom: Number(event.target.value) / 100,
-      });
-    }
-    htmlZoom.children[0].addEventListener("change", changeZoom.bind(this));
     this.#isBind = true;
   }
 

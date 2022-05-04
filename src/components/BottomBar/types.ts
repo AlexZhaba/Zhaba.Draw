@@ -10,4 +10,5 @@ export interface BottomBarState extends CanvasSize {
 
 export interface CanvasSizeAction extends CanvasSize {
   eventType: "CANVAS_SIZE";
+  zoom: number;
 }

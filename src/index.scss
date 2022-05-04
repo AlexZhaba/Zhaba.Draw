@@ -13,8 +13,8 @@ body, html {
 
 .wrapper {
   display: flex;
-  // min-height: calc(100vh - 100px - 50px);
   flex-direction: column;
+   min-height: calc(100vh - 100px - 50px);
   width: 100%;
   margin-top: 100px;
   margin-bottom: 50px;
@@ -23,7 +23,6 @@ body, html {
 #canvas {
   // min-width: 100vw;
   // min-height: 600px;
-  background: #FFF;
   flex-shrink: 0;
   background: white;
 }

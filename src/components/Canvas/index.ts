@@ -47,9 +47,27 @@ export default class Canvas {
     };
     this.#canvasEl = canvasEl;
     this.#showLayout(this.#canvasEl);
-    // this.#layout.width = 2000;
-    // this.#layout.height = 4000;
     this.#showLayout(this.#canvasEl);
+    const wrapper = document.getElementById("wrapper");
+    if (!wrapper) return;
+
+    // adding zoom listener
+    // @ts-ignore
+    wrapper.addEventListener("mousewheel", (event: WheelEvent) => {
+      if (!event.ctrlKey) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      console.log(event.deltaY);
+      if (event.deltaY < 0) {
+        this.#setLayout({
+          zoom: Math.max(0.1, Number(Number(this.#layout.zoom - Math.abs(event.deltaY / 200)).toFixed(2))),
+        });
+      } else {
+        this.#setLayout({
+          zoom: Math.min(5, Number(Number(this.#layout.zoom + Math.abs(event.deltaY / 200)).toFixed(2))),
+        });
+      }
+    });
   }
 
   onAction(action: AllActions) {
@@ -78,6 +96,7 @@ export default class Canvas {
       eventType: "CANVAS_SIZE",
       canvas_width: this.#layout.width,
       canvas_height: this.#layout.height,
+      zoom: this.#layout.zoom,
     });
     this.#connector.bindTriggerFunction(this.#setLayout.bind(this));
     return this;
@@ -116,6 +135,7 @@ export default class Canvas {
       ...this.#layout,
       ...newLayout,
     };
+    console.log(this.#layout.zoom);
     this.#showLayout(this.#canvasEl);
     if (this.#syncCanvasEl) {
       this.#showLayout(this.#syncCanvasEl);
@@ -144,6 +164,7 @@ export default class Canvas {
         eventType: "CANVAS_SIZE",
         canvas_width: this.#layout.width,
         canvas_height: this.#layout.height,
+        zoom: Number(this.#layout.zoom.toFixed(2)),
       });
     }
     return this;
