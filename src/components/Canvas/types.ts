@@ -21,9 +21,11 @@ export interface ConnectedObject {
 export interface StyleState {
   strokeStyle: string;
   fillStyle: string;
+  lineWidth: number;
 }
 
 export const mockedStyleState: StyleState = {
   strokeStyle: "red",
   fillStyle: "red",
+  lineWidth: 10,
 };

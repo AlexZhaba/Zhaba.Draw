@@ -1,4 +1,4 @@
-import { isButtonSetter } from "./helpers/index";
+import { isButtonGetter, isButtonSetter } from "./helpers/index";
 import modeButtons from "./buttons/mode";
 import colorButtons from "./buttons/color";
 import ColorCircle from "./buttons/colorCircle";
@@ -15,10 +15,10 @@ import { FigureName } from "../../types";
 const initialState: ToolboxState = {
   modeName: FigureName.BRUSH,
   color: "#ff0000",
-  colorType: "outlineOnly",
+  colorType: "outlineFill",
   strokeStyle: "#000",
   fillStyle: "#000",
-  lineWidth: 25,
+  lineWidth: 10,
 };
 
 export default class Toolbox {
@@ -72,7 +72,8 @@ export default class Toolbox {
     this.#buttons.forEach(group => group.forEach((button) => {
       if (isButtonSetter(button)) {
         button.init(this.#setState.bind(this));
-      } else {
+      }
+      if (isButtonGetter(button)) {
         this.#changeStateObservers.push(() => button.onChangeState(this.#state));
       }
     }));

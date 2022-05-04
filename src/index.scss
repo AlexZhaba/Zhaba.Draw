@@ -183,3 +183,18 @@ body, html {
     background: #bbb;
   }
 }
+
+.custom-select {
+  gap: 5px;
+  grid-column: span 2; 
+  grid-row: 1 / span 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+
+  & select {
+    height: 30px;
+    width: 50px;
+  }
+}

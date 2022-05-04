@@ -35,6 +35,8 @@ export default abstract class BaseFigure {
   setStyle(style: StyleState) {
     this.context.strokeStyle = style.strokeStyle;
     this.context.fillStyle = style.fillStyle;
+    console.log(style.lineWidth);
+    this.context.lineWidth = style.lineWidth;
   }
 
   abstract getTransferActions(): Set<keyof typeof mouseActions>;

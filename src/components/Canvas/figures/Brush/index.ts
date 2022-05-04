@@ -13,7 +13,6 @@ export default class Brush extends BaseFigure {
   paintFigure(action: AllActions) {
     this.context.beginPath();
     this.context.moveTo(this.#lastPosition.position.x, this.#lastPosition.position.y);
-    this.context.lineWidth = 18;
     this.context.lineCap = "round";
     this.context.lineTo(action.position.x, action.position.y);
     this.context.stroke();
